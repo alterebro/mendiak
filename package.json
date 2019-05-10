@@ -1,0 +1,26 @@
+{
+  "name": "mendiak",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.html",
+  "scripts": {
+    "dev": "parcel src/index.html",
+    "prebuild": "rm -rf dist",
+    "build": "parcel build src/index.html --no-source-maps"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alterebro/mendiak.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alterebro/mendiak/issues"
+  },
+  "homepage": "https://github.com/alterebro/mendiak#readme",
+  "devDependencies": {
+    "cssnano": "^4.1.10",
+    "less": "^3.9.0"
+  }
+}
