@@ -1,8 +1,8 @@
 {
   "name": "mendiak",
   "version": "1.0.0",
-  "description": "",
-  "main": "dist/index.html",
+  "description": "Mendiak Generator",
+  "main": "src/index.html",
   "scripts": {
     "dev": "parcel src/index.html",
     "prebuild": "rm -rf dist",
@@ -21,6 +21,9 @@
   "homepage": "https://github.com/alterebro/mendiak#readme",
   "devDependencies": {
     "cssnano": "^4.1.10",
-    "less": "^3.9.0"
+    "less": "^3.9.0",
+    "perlin-noise-3d": "^0.5.0",
+    "svgjs": "^2.6.2",
+    "tinycolor2": "^1.4.1"
   }
 }
