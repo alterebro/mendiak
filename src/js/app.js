@@ -51,7 +51,8 @@ const config = {
 
 const app = {
     color : colorPalette('fff'),
-    background : null
+    background : null, // It gets created later
+    hills : [] // Will get populated later
 }
 
 const draw = SVG('app').size(config.width, config.height);
@@ -94,23 +95,99 @@ function createBackground() {
     }
 }
 
+
+
+class Hill {
+
+    constructor(properties) {
+
+        this.element = false;
+        this.properties = properties;
+
+        console.log('hi from the constructor');
+        console.log('element:', this.element);
+    }
+
+    createPoints() {
+
+        const _points = [];
+        let _hSpacing = config.width / this.properties.points;
+        let _halfAmplitude = Math.round(this.properties.amplitude / 2);
+        let _noise = new perlinNoise3d();
+        let _noiseStep = 0;
+
+        for (let i=0; i<=this.properties.points; i++) {
+
+            let _x = Math.round(_hSpacing * i);
+            let _y = this.properties.y + (parseInt((_noise.get(_noiseStep) * this.properties.amplitude) - _halfAmplitude));
+                _noiseStep += this.properties.increment;
+
+            _points.push({x:_x, y:_y});
+        }
+        _points.push({ x: config.width, y: config.height });
+        _points.push({ x: 0, y: config.height });
+
+        return _points;
+    }
+
+    createPath(points) {
+
+        const _d = points.map( (el, i) => (i==0) ? `M ${el.x} ${el.y}` : `L ${el.x} ${el.y}` );
+        return `${_d.join(' ')} Z`;
+    }
+
+    drawPath(newProperties = {}) {
+
+        this.properties = Object.assign(this.properties, newProperties);
+
+        const points = this.createPoints();
+        const path = this.createPath(points);
+
+        if (!this.element) {
+
+            this.element = draw.path(path).fill(this.properties.color).opacity(.5);
+
+        } else {
+
+            this.element.animate(500).plot(path).fill(this.properties.color);
+        }
+
+    }
+
+
+}
+
+
+
 // -----------------------
 
 window.addEventListener('load', () => {
 
     // Init
     createBackground();
+    let hill = new Hill({ y: 200, points : 100, amplitude: 50, increment: .1, color: app.color.self, mist: .35 });
+        hill.drawPath();
+
 
     // Smooth entry
     window.setTimeout(() => {
         app.color = colorPalette('20391b');
         createBackground();
+        hill.drawPath( {color: app.color.self} );
+
     }, 500);
 
+
     // Button action
-    document.getElementById('bg').addEventListener('click', () => {
-        app.color = colorPalette(tinycolor.random().toHexString());
+    document.getElementById('color').addEventListener('click', () => {
+
+        const _colours = ['#d08635','#5638a4','#626866','#1e6686','#86233d','#4182d9','#3b6e9e','#3669a2'];
+        const _colour = _colours[Math.floor(Math.random() * _colours.length)];
+        // const _colour = tinycolor.random().toHexString();
+
+        app.color = colorPalette(_colour);
         createBackground();
+        hill.drawPath( {color: app.color.self} );
     });
 });
 
