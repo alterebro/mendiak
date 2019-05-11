@@ -1,6 +1,6 @@
 # mendiak
 
-## Developemnt
+## Development
 
 ```sh
 $ npm run dev

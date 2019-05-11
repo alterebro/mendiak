@@ -49,19 +49,74 @@ const config = {
     height : 600
 }
 
-const color = colorPalette('20391b');
+const app = {
+    color : colorPalette('fff'),
+    background : null
+}
+
 const draw = SVG('app').size(config.width, config.height);
-      draw.viewbox({ x: 0, y: 0, width: config.width, height: config.height })
+      draw.viewbox({ x: 0, y: 0, width: config.width, height: config.height });
 
-    // Background
-    draw.rect(config.width, config.height).fill(color.complementary);
-    draw.rect(config.width, config.height).fill(draw.gradient('linear', function(stop) {
+function createBackground() {
+    // Creates the background in case it doesn't exists
+    // Otherwise, updates its colour
 
-        stop.at({ offset: 0, color: '#fff', opacity: 0 })
-        stop.at({ offset: .65, color: '#fff', opacity: .8 })
-        stop.at({ offset: 1, color: '#fff', opacity: .8 })
+    if (!app.background) {
 
-    }).from(0, 0).to(0, 1));
+        // Solid Background
+        app.background = draw.rect(config.width, config.height).fill(app.color.complementary);
+
+        // Foggy floor
+        draw.rect(config.width, config.height).fill(draw.gradient('linear', function(stop) {
+
+            stop.at({ offset: 0, color: '#fff', opacity: 0 })
+            stop.at({ offset: .65, color: '#fff', opacity: .8 })
+            stop.at({ offset: 1, color: '#fff', opacity: .8 })
+
+        }).from(0, 0).to(0, 1));
+
+        // Sunlight
+        const sun = { size : Math.min(config.width, config.height) }
+              sun.offset = {
+                x : Math.round((config.width - sun.size) / 2),
+                y : Math.round((config.height - sun.size) / 2)
+              }
+        draw.rect(sun.size, sun.size).x(sun.offset.x).y(sun.offset.y).fill(draw.gradient('radial', function(stop) {
+
+            stop.at({ offset: 0, color: '#fff', opacity: .5 })
+            stop.at({ offset: 1, color: '#fff', opacity: 0 })
+
+        }).from(.5, .5).to(.5, .5).radius(.45) );
+
+    } else {
+
+        app.background.animate(500, '-', 0).fill(app.color.complementary);
+    }
+}
+
+// -----------------------
+
+window.addEventListener('load', () => {
+
+    // Init
+    createBackground();
+
+    // Smooth entry
+    window.setTimeout(() => {
+        app.color = colorPalette('20391b');
+        createBackground();
+    }, 500);
+
+    // Button action
+    document.getElementById('bg').addEventListener('click', () => {
+        app.color = colorPalette(tinycolor.random().toHexString());
+        createBackground();
+    });
+});
+
+
+
+
 
 
 
