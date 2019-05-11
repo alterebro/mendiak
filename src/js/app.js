@@ -46,7 +46,8 @@ function colorPalette(color) {
 
 const config = {
     width : 920,
-    height : 600
+    height : 600,
+    ms : 500 // Transition duration in milliseconds
 }
 
 const app = {
@@ -91,7 +92,7 @@ function createBackground() {
 
     } else {
 
-        app.background.animate(500, '-', 0).fill(app.color.complementary);
+        app.background.animate(config.ms, '-', 0).fill(app.color.complementary);
     }
 }
 
@@ -102,10 +103,9 @@ class Hill {
     constructor(properties) {
 
         this.element = false;
+        this.mist = false;
+        this.mistDensity = false;
         this.properties = properties;
-
-        console.log('hi from the constructor');
-        console.log('element:', this.element);
     }
 
     createPoints() {
@@ -136,6 +136,48 @@ class Hill {
         return `${_d.join(' ')} Z`;
     }
 
+    drawMist() {
+
+        let _mist = {
+            x : 0,
+            y : this.properties.y,
+            w : config.width,
+            h : config.height - this.properties.y,
+            g : false
+        }
+
+        let _mistPercentHeight = (this.properties.amplitude * 100) / _mist.h;
+            _mistPercentHeight = _mistPercentHeight / 100;
+
+        if ( !this.mist ) {
+
+            this.mistDensity = draw.gradient('linear', function(stop) {
+
+                stop.at({ offset: 0, color: '#fff', opacity: 1 })
+                stop.at({ offset: _mistPercentHeight, color: '#fff', opacity: 1 })
+                stop.at({ offset: _mistPercentHeight, color: '#f60', opacity: 1 })
+                stop.at({ offset: 1, color: '#f60', opacity: 1 })
+
+            }).from(0, 0).to(0, 1);
+            this.mist = draw.rect(_mist.w, _mist.h).x(_mist.x).y(_mist.y).fill(this.mistDensity).opacity(this.properties.mist)
+
+        }  else {
+
+            this.mistDensity.update(function(stop) {
+
+                stop.at({ offset: 0, color: '#fff', opacity: 0 })
+                stop.at({ offset: _mistPercentHeight, color: '#fff', opacity: 1 })
+                stop.at({ offset: _mistPercentHeight, color: '#f60', opacity: 1 })
+                stop.at({ offset: 1, color: '#f60', opacity: 1 })
+
+            });
+
+            this.mist.animate(config.ms).y(_mist.y).height(_mist.h);
+        }
+
+
+    }
+
     drawPath(newProperties = {}) {
 
         this.properties = Object.assign(this.properties, newProperties);
@@ -149,8 +191,11 @@ class Hill {
 
         } else {
 
-            this.element.animate(500).plot(path).fill(this.properties.color);
+            this.element.animate(config.ms).plot(path).fill(this.properties.color);
         }
+
+
+        this.drawMist();
 
     }
 
@@ -185,9 +230,12 @@ window.addEventListener('load', () => {
         const _colour = _colours[Math.floor(Math.random() * _colours.length)];
         // const _colour = tinycolor.random().toHexString();
 
+
+        let _y = Math.floor(Math.random() * 100) + 150;
+
         app.color = colorPalette(_colour);
         createBackground();
-        hill.drawPath( {color: app.color.self} );
+        hill.drawPath( {color: app.color.self, y : _y } );
     });
 });
 
