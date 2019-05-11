@@ -2,8 +2,11 @@ import tinycolor from 'tinycolor2';
 import SVG from 'svgjs';
 import perlinNoise3d from 'perlin-noise-3d';
 
-
 function colorPalette(color) {
+    // Creates a new colour palette ( 6 analogous and complementary )
+    // Input : a colour string
+    // Retuns : Object { self, analogous, complementary }
+    // i.e: let _colour = colorPalette('234');
 
     const _default = '#30609f';
     const self = (tinycolor(color).isValid())
@@ -11,7 +14,6 @@ function colorPalette(color) {
         : _default;
 
     const analogous = (function() {
-
         let _analogous = tinycolor(self).analogous(7, 30);
             _analogous.shift();
             _analogous = _analogous.map((c) => c.toHex() );
@@ -24,9 +26,7 @@ function colorPalette(color) {
         // Darken the darks and Lighten the lights
         _analogous = _analogous.map((el, i, arr) => {
 
-            let _i = ((i+1) - (arr.length/2)) * 15;
-            // let _i = (i - (arr.length/2)) * 15;
-
+            let _i = ((i+1) - (arr.length/2)) * 15; // let _i = (i - (arr.length/2)) * 15;
             let _elem = tinycolor(el);
             let _el = _elem;
 
@@ -35,9 +35,7 @@ function colorPalette(color) {
 
             return _el.desaturate(30).toHexString();
         });
-
         return _analogous
-
     })();
 
     const complementary = tinycolor(self).complement().brighten(40).desaturate(40).toHexString();
@@ -45,4 +43,33 @@ function colorPalette(color) {
     return { self, analogous, complementary }
 }
 
-console.log( colorPalette('234') );
+
+const config = {
+    width : 920,
+    height : 600
+}
+
+const color = colorPalette('20391b');
+const draw = SVG('app').size(config.width, config.height);
+      draw.viewbox({ x: 0, y: 0, width: config.width, height: config.height })
+
+    // Background
+    draw.rect(config.width, config.height).fill(color.complementary);
+    draw.rect(config.width, config.height).fill(draw.gradient('linear', function(stop) {
+
+        stop.at({ offset: 0, color: '#fff', opacity: 0 })
+        stop.at({ offset: .65, color: '#fff', opacity: .8 })
+        stop.at({ offset: 1, color: '#fff', opacity: .8 })
+
+    }).from(0, 0).to(0, 1));
+
+
+
+
+
+
+
+
+
+
+// ...
