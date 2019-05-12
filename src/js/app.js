@@ -176,7 +176,7 @@ class Hill {
         // Create or update if path element already exists
         if (!this.element) {
 
-            this.element = draw.path(path).fill(this.properties.color).opacity(.5);
+            this.element = draw.path(path).fill(this.properties.color);
 
         } else {
 
@@ -191,30 +191,24 @@ class Hill {
 
 // -----------------------
 
-window.addEventListener('load', () => {
 
-    // Init
-    app.color = colorPalette('fff');
-    createBackground();
-    for ( let i = 0; i < app.color.analogous.length; i++ ) {
-        let _y = 200 + (i*40);
-        let _inc =  (i*.01) + .1;
-        let _mist = 1 - (i*.1);
-        app.hills.push( new Hill({ y: _y, points : 95, amplitude: 50, increment: _inc, color: app.color.analogous[i], mist: _mist }) );
-    }
-    app.hills.forEach( el => el.drawPath() );
+const Mendiak = {
 
+    colors : ['d08635', '5638a4', '626866', '1e6686', '86233d', '4182d9', '3b6e9e', '3669a2', '793961', 'ca78c6', '306dbd', '464d32', 'ab4a5b', '5a28c2', '623373', '9a4743', '64bfbd', '20391b'],
 
-    // Smooth entry
-    window.setTimeout(() => {
+    init : function() {
+        app.color = colorPalette('fff');
+        createBackground();
+        for ( let i = 0; i < app.color.analogous.length; i++ ) {
+            let _y = 200 + (i*40);
+            let _inc =  (i*.01) + .1;
+            let _mist = (i == (app.color.analogous.length-1)) ? 0 : 1 - (i*.1);
+            app.hills.push( new Hill({ y: _y, points : 95, amplitude: 50, increment: _inc, color: app.color.analogous[i], mist: _mist }) );
+        }
+        app.hills.forEach( el => el.drawPath() );
+    },
 
-        // Start after 500ms
-        updateDraw('20391b');
-
-    }, 500);
-
-
-    function updateDraw(baseColor) {
+    update : function(baseColor) {
         app.color = colorPalette(baseColor);
         createBackground();
 
@@ -225,15 +219,22 @@ window.addEventListener('load', () => {
             el.drawPath( {y: _y, color: app.color.analogous[i]} )
         });
     }
+}
+
+
+
+window.addEventListener('load', () => {
+
+    // Init
+    Mendiak.init();
+
+    // Smooth entry / Start after 500ms
+    window.setTimeout(() => { Mendiak.update( Mendiak.colors[Math.floor(Math.random() * Mendiak.colors.length)] ) }, 500);
 
     // Button action
     document.getElementById('regenerate').addEventListener('click', () => {
 
-        const _colours = ['#d08635','#5638a4','#626866','#1e6686','#86233d','#4182d9','#3b6e9e','#3669a2'];
-        const _colour = _colours[Math.floor(Math.random() * _colours.length)];
-        // const _colour = tinycolor.random().toHexString();
-
-        updateDraw(_colour);
+        Mendiak.update( Mendiak.colors[Math.floor(Math.random() * Mendiak.colors.length)] );
     });
 });
 
