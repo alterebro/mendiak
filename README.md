@@ -25,3 +25,11 @@ $ npm run serve
 $ npm run build
 $ ip=`ipconfig getifaddr en0`; php -S $ip:8000 -t dist/
 ```
+
+## Deploy (via Netlify)
+
+```sh
+$ npm run deploy
+# or =
+$ npm run build && netlify deploy --prod
+```
