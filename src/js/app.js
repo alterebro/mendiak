@@ -126,7 +126,6 @@ class Hill {
         }
         _points.push({ x: config.width, y: config.height });
         _points.push({ x: 0, y: config.height });
-
         return _points;
     }
 
@@ -142,49 +141,38 @@ class Hill {
             x : 0,
             y : this.properties.y,
             w : config.width,
-            h : config.height - this.properties.y,
-            g : false
+            h : config.height - this.properties.y
         }
-
         let _mistPercentHeight = (this.properties.amplitude * 100) / _mist.h;
             _mistPercentHeight = _mistPercentHeight / 100;
 
+        let _mistGradient = function(stop) {
+            stop.at({ offset: 0, color: '#fff', opacity: 0 })
+            stop.at({ offset: _mistPercentHeight, color: '#fff', opacity: 1 })
+            stop.at({ offset: _mistPercentHeight, color: '#fff', opacity: 1 })
+            stop.at({ offset: 1, color: '#fff', opacity: 1 })
+        }
+
+        // Create or update if mist element already exists
         if ( !this.mist ) {
 
-            this.mistDensity = draw.gradient('linear', function(stop) {
-
-                stop.at({ offset: 0, color: '#fff', opacity: 0 })
-                stop.at({ offset: _mistPercentHeight, color: '#fff', opacity: 1 })
-                stop.at({ offset: _mistPercentHeight, color: '#fff', opacity: 1 })
-                stop.at({ offset: 1, color: '#fff', opacity: 1 })
-
-            }).from(0, 0).to(0, 1);
+            this.mistDensity = draw.gradient('linear', _mistGradient).from(0, 0).to(0, 1);
             this.mist = draw.rect(_mist.w, _mist.h).x(_mist.x).y(_mist.y).fill(this.mistDensity).opacity(this.properties.mist)
 
         }  else {
 
-            this.mistDensity.update(function(stop) {
-
-                stop.at({ offset: 0, color: '#fff', opacity: 0 })
-                stop.at({ offset: _mistPercentHeight, color: '#fff', opacity: 1 })
-                stop.at({ offset: _mistPercentHeight, color: '#fff', opacity: 1 })
-                stop.at({ offset: 1, color: '#fff', opacity: 1 })
-
-            });
-
+            this.mistDensity.update( _mistGradient );
             this.mist.animate(config.ms).y(_mist.y).height(_mist.h);
         }
-
-
     }
 
     drawPath(newProperties = {}) {
 
         this.properties = Object.assign(this.properties, newProperties);
-
         const points = this.createPoints();
         const path = this.createPath(points);
 
+        // Create or update if path element already exists
         if (!this.element) {
 
             this.element = draw.path(path).fill(this.properties.color).opacity(.5);
@@ -194,9 +182,9 @@ class Hill {
             this.element.animate(config.ms).plot(path).fill(this.properties.color);
         }
 
+        // Render mist SVG element only when value is > 0
         if ( !!this.properties.mist ) { this.drawMist() }
     }
-
 }
 
 
@@ -208,7 +196,7 @@ window.addEventListener('load', () => {
     createBackground();
     app.hills.push( new Hill({ y: 200, points : 95, amplitude: 50, increment: .1, color: app.color.analogous[0], mist: .5 }) );
     app.hills.push( new Hill({ y: 260, points : 60, amplitude: 50, increment: .1, color: app.color.self, mist: 0 }) );
-    app.hills.forEach( el => el.drawPath() )
+    app.hills.forEach( el => el.drawPath() );
 
 
     // Smooth entry
