@@ -50,10 +50,11 @@ const config = {
     ms : 500 // Transition duration in milliseconds
 }
 
+// Create app Object. It gets populated on initialization
 const app = {
-    color : colorPalette('fff'),
-    background : null, // It gets created later
-    hills : [] // Will get populated later
+    color : {},
+    background : null,
+    hills : []
 }
 
 const draw = SVG('app').size(config.width, config.height);
@@ -193,20 +194,37 @@ class Hill {
 window.addEventListener('load', () => {
 
     // Init
+    app.color = colorPalette('fff');
     createBackground();
-    app.hills.push( new Hill({ y: 200, points : 95, amplitude: 50, increment: .1, color: app.color.analogous[0], mist: .5 }) );
-    app.hills.push( new Hill({ y: 260, points : 60, amplitude: 50, increment: .1, color: app.color.self, mist: 0 }) );
+    for ( let i = 0; i < app.color.analogous.length; i++ ) {
+        let _y = 200 + (i*40);
+        let _inc =  (i*.01) + .1;
+        let _mist = 1 - (i*.1);
+        app.hills.push( new Hill({ y: _y, points : 95, amplitude: 50, increment: _inc, color: app.color.analogous[i], mist: _mist }) );
+    }
     app.hills.forEach( el => el.drawPath() );
 
 
     // Smooth entry
     window.setTimeout(() => {
-        app.color = colorPalette('20391b');
-        createBackground();
-        app.hills.forEach( el => el.drawPath( {color: app.color.self} ) )
+
+        // Start after 500ms
+        updateDraw('20391b');
 
     }, 500);
 
+
+    function updateDraw(baseColor) {
+        app.color = colorPalette(baseColor);
+        createBackground();
+
+        let _y = Math.floor(Math.random() * 100) + 150;
+        app.hills.forEach( (el, i) => {
+
+            _y = _y + (i*10);
+            el.drawPath( {y: _y, color: app.color.analogous[i]} )
+        });
+    }
 
     // Button action
     document.getElementById('regenerate').addEventListener('click', () => {
@@ -215,12 +233,7 @@ window.addEventListener('load', () => {
         const _colour = _colours[Math.floor(Math.random() * _colours.length)];
         // const _colour = tinycolor.random().toHexString();
 
-
-        let _y = Math.floor(Math.random() * 100) + 150;
-
-        app.color = colorPalette(_colour);
-        createBackground();
-        app.hills.forEach( (el, i) => el.drawPath( {color: app.color.self, y : (_y + (i*40)) } ) );
+        updateDraw(_colour);
     });
 });
 
