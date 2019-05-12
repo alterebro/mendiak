@@ -153,10 +153,10 @@ class Hill {
 
             this.mistDensity = draw.gradient('linear', function(stop) {
 
-                stop.at({ offset: 0, color: '#fff', opacity: 1 })
+                stop.at({ offset: 0, color: '#fff', opacity: 0 })
                 stop.at({ offset: _mistPercentHeight, color: '#fff', opacity: 1 })
-                stop.at({ offset: _mistPercentHeight, color: '#f60', opacity: 1 })
-                stop.at({ offset: 1, color: '#f60', opacity: 1 })
+                stop.at({ offset: _mistPercentHeight, color: '#fff', opacity: 1 })
+                stop.at({ offset: 1, color: '#fff', opacity: 1 })
 
             }).from(0, 0).to(0, 1);
             this.mist = draw.rect(_mist.w, _mist.h).x(_mist.x).y(_mist.y).fill(this.mistDensity).opacity(this.properties.mist)
@@ -167,8 +167,8 @@ class Hill {
 
                 stop.at({ offset: 0, color: '#fff', opacity: 0 })
                 stop.at({ offset: _mistPercentHeight, color: '#fff', opacity: 1 })
-                stop.at({ offset: _mistPercentHeight, color: '#f60', opacity: 1 })
-                stop.at({ offset: 1, color: '#f60', opacity: 1 })
+                stop.at({ offset: _mistPercentHeight, color: '#fff', opacity: 1 })
+                stop.at({ offset: 1, color: '#fff', opacity: 1 })
 
             });
 
@@ -194,14 +194,10 @@ class Hill {
             this.element.animate(config.ms).plot(path).fill(this.properties.color);
         }
 
-
-        this.drawMist();
-
+        if ( !!this.properties.mist ) { this.drawMist() }
     }
 
-
 }
-
 
 
 // -----------------------
@@ -210,21 +206,22 @@ window.addEventListener('load', () => {
 
     // Init
     createBackground();
-    let hill = new Hill({ y: 200, points : 100, amplitude: 50, increment: .1, color: app.color.self, mist: .35 });
-        hill.drawPath();
+    app.hills.push( new Hill({ y: 200, points : 95, amplitude: 50, increment: .1, color: app.color.analogous[0], mist: .5 }) );
+    app.hills.push( new Hill({ y: 260, points : 60, amplitude: 50, increment: .1, color: app.color.self, mist: 0 }) );
+    app.hills.forEach( el => el.drawPath() )
 
 
     // Smooth entry
     window.setTimeout(() => {
         app.color = colorPalette('20391b');
         createBackground();
-        hill.drawPath( {color: app.color.self} );
+        app.hills.forEach( el => el.drawPath( {color: app.color.self} ) )
 
     }, 500);
 
 
     // Button action
-    document.getElementById('color').addEventListener('click', () => {
+    document.getElementById('regenerate').addEventListener('click', () => {
 
         const _colours = ['#d08635','#5638a4','#626866','#1e6686','#86233d','#4182d9','#3b6e9e','#3669a2'];
         const _colour = _colours[Math.floor(Math.random() * _colours.length)];
@@ -235,7 +232,7 @@ window.addEventListener('load', () => {
 
         app.color = colorPalette(_colour);
         createBackground();
-        hill.drawPath( {color: app.color.self, y : _y } );
+        app.hills.forEach( (el, i) => el.drawPath( {color: app.color.self, y : (_y + (i*40)) } ) );
     });
 });
 
