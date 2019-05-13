@@ -243,6 +243,14 @@ window.addEventListener('load', () => {
     });
     document.getElementById('save').addEventListener('click', () => { console.log('save clicked!') });
 
+    // Keyboard action
+    document.addEventListener('keyup', e => {
+
+		if ( e.keyCode === 13 ) { // Enter key to update
+
+            Mendiak.update( Mendiak.colors[Math.floor(Math.random() * Mendiak.colors.length)] );
+        }
+	})
 });
 
 
