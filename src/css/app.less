@@ -1,3 +1,15 @@
+
+
+
+
+
+@transition-ms : .5s;
+
+:root {
+    --mendiak-color-primary : #33384f;
+    --mendiak-color-secondary : #4f4556;
+}
+
 html {
     line-height: 1;
 	text-size-adjust: 100%;
@@ -8,35 +20,31 @@ html {
     cursor: default;
 }
 body {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
+    font-family: "Overpass", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
     font-size: 1.6em;
     line-height: 1.4;
-    background: #222;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: var(--mendiak-color-primary);
+    transition: background @transition-ms ease-in-out;
+}
+html, body {
+    height: 100%;
+    width: 100%;
 }
 *, *:before, *:after {
 	box-sizing: inherit;
 	background-repeat: no-repeat;
 }
 
-html, body {
-    height: 100%;
-    width: 100%;
-}
-section, header, foooter {
-    display: block;
-}
+section, header, footer { display: block; }
 html, body, h1, p, svg, button {
     margin: 0;
     padding: 0;
 }
 
-
-body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-}
 
 section {
     display: flex;
@@ -47,7 +55,11 @@ section {
     background: #fff;
     padding: .8rem;
 
-    a { color: #069; }
+    a {
+        color: var(--mendiak-color-primary);
+        transition: color @transition-ms ease-in-out;
+        &:hover { color: var(--mendiak-color-secondary); }
+    }
 
     #app {
         order: 0;
@@ -64,15 +76,16 @@ section {
         order: 1;
         flex: 1 1 auto;
         padding: 1.2rem .6rem .4rem .6rem;
-        color: #373839;
+        color: var(--mendiak-color-secondary);
+        transition: color @transition-ms ease-in-out;
 
-        h1 { font-size: 1.4rem; }
-        p { font-size: 1.3rem; }
+        h1 { font-size: 1.3rem; }
+        p { font-size: 1.2rem; }
     }
     footer {
         order: 2;
         flex: 0 0 auto;
-        padding: 1.2rem .6rem .4rem .6rem;
+        padding: .6rem .6rem .4rem .6rem;
         align-self: flex-end;
         text-align: right;
     }
@@ -81,19 +94,19 @@ section {
 
 button {
     display: inline-block;
-    font: 1.3rem;
+    font: 1.2rem;
     color: inherit;
     margin: 0 auto;
     padding: 0;
     text-transform: none;
     padding: 8px 20px;
-    background-color: #666;
-    color: #fff;
     border: none;
     border-radius: 3px;
     cursor: pointer;
-    transition: background-color .35s linear;
+    color: #fff;
+    background-color: var(--mendiak-color-primary);
+    transition: background-color @transition-ms ease-in-out;
 
-    &:hover { background-color: #333; }
+    &:hover { background-color: var(--mendiak-color-secondary); }
     &:focus { outline: none; }
 }

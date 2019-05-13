@@ -47,7 +47,7 @@ function colorPalette(color) {
 const config = {
     width : 920,
     height : 600,
-    ms : 500 // Transition duration in milliseconds
+    ms : 800 // Transition duration in milliseconds
 }
 
 // Create app Object. It gets populated on initialization
@@ -180,7 +180,7 @@ class Hill {
 
         } else {
 
-            this.element.animate(config.ms).plot(path).fill(this.properties.color);
+            this.element.animate(config.ms, '<>').plot(path).fill(this.properties.color);
         }
 
         // Render mist SVG element only when value is > 0
@@ -203,7 +203,7 @@ const Mendiak = {
             let _y = 200 + (i*40);
             let _inc =  (i*.01) + .1;
             let _mist = (i == (app.color.analogous.length-1)) ? 0 : 1 - (i*.1);
-            app.hills.push( new Hill({ y: _y, points : 95, amplitude: 50, increment: _inc, color: app.color.analogous[i], mist: _mist }) );
+            app.hills.push( new Hill({ y: _y, points : 95, amplitude: 50, increment: _inc, color: app.color.self, mist: _mist }) );
         }
         app.hills.forEach( el => el.drawPath() );
     },
@@ -218,6 +218,11 @@ const Mendiak = {
             _y = _y + (i*10);
             el.drawPath( {y: _y, color: app.color.analogous[i]} )
         });
+
+        // UI Colors
+        let root = document.documentElement;
+            root.style.setProperty('--mendiak-color-primary', app.color.self);
+            root.style.setProperty('--mendiak-color-secondary', app.color.analogous[app.color.analogous.length-2]);
     }
 }
 
