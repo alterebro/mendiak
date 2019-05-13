@@ -1,8 +1,4 @@
-
-
-
-
-
+// Vars
 @transition-ms : .5s;
 
 :root {
@@ -10,6 +6,16 @@
     --mendiak-color-secondary : #4f4556;
 }
 
+
+// Pseudo reset-normalizer
+section, header, footer { display: block; }
+html, body, h1, p, svg, button {
+    margin: 0;
+    padding: 0;
+}
+
+
+// UI Layout
 html {
     line-height: 1;
 	text-size-adjust: 100%;
@@ -26,9 +32,20 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow-y: scroll;
     padding: 2rem;
     background: var(--mendiak-color-primary);
     transition: background @transition-ms ease-in-out;
+
+    &:before {
+        content: '';
+        display: block;
+        z-index: -1;
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background-image: radial-gradient(circle farthest-corner, transparent, rgba(0, 0, 0, .5));
+    }
 }
 html, body {
     height: 100%;
@@ -39,32 +56,40 @@ html, body {
 	background-repeat: no-repeat;
 }
 
-section, header, footer { display: block; }
-html, body, h1, p, svg, button {
-    margin: 0;
-    padding: 0;
-}
-
-
 section {
     display: flex;
-    max-width: 920px;
+    max-width: 840px;
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: space-between;
     background: #fff;
-    padding: .8rem;
-
-    a {
-        color: var(--mendiak-color-primary);
-        transition: color @transition-ms ease-in-out;
-        &:hover { color: var(--mendiak-color-secondary); }
-    }
+    padding: 1rem;
+    margin: auto;
+    border-radius: 1px;
+    box-shadow:
+        0 5px 50px 10px rgba(0, 0, 0, .1),
+        0 20px 20px -10px rgba(0, 0, 0, .35);
 
     #app {
         order: 0;
         flex: 0 0 100%;
         width: 100%;
+        border-radius: 3px;
+        overflow: hidden;
+        position: relative;
+
+        &:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: block;
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            z-index: 1;
+            box-shadow: inset 0 0 3px 0 rgba(0, 0, 0, .15);
+        }
 
         svg {
             display: block;
@@ -89,24 +114,29 @@ section {
         align-self: flex-end;
         text-align: right;
     }
-}
 
+    a {
+        color: var(--mendiak-color-primary);
+        transition: color @transition-ms ease-in-out;
+        &:hover { color: var(--mendiak-color-secondary); }
+    }
 
-button {
-    display: inline-block;
-    font: 1.2rem;
-    color: inherit;
-    margin: 0 auto;
-    padding: 0;
-    text-transform: none;
-    padding: 8px 20px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-    color: #fff;
-    background-color: var(--mendiak-color-primary);
-    transition: background-color @transition-ms ease-in-out;
+    button {
+        display: inline-block;
+        font: 1.2rem;
+        color: inherit;
+        margin: 0 auto;
+        padding: 0;
+        text-transform: none;
+        padding: 8px 20px;
+        border: none;
+        border-radius: 3px;
+        cursor: pointer;
+        color: #fff;
+        background-color: var(--mendiak-color-primary);
+        transition: background-color @transition-ms ease-in-out;
 
-    &:hover { background-color: var(--mendiak-color-secondary); }
-    &:focus { outline: none; }
+        &:hover { background-color: var(--mendiak-color-secondary); }
+        &:focus { outline: none; }
+    }
 }
