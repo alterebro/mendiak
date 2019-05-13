@@ -10,48 +10,90 @@ html {
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
     font-size: 1.6em;
-    line-height: 1.6;
-    background: #1f1f1f;
-    color: #aeaeae;
-}
-html, body {
-    margin: 0;
-    padding: 0;
+    line-height: 1.4;
+    background: #222;
 }
 *, *:before, *:after {
 	box-sizing: inherit;
 	background-repeat: no-repeat;
 }
 
+html, body {
+    height: 100%;
+    width: 100%;
+}
+section, header, foooter {
+    display: block;
+}
+html, body, h1, p, svg, button {
+    margin: 0;
+    padding: 0;
+}
 
-#app {
-    width: ~"calc(100% - 4rem)";
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+section {
+    display: flex;
     max-width: 920px;
-    margin: 2rem auto;
-    border: solid #fff 10px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    background: #fff;
+    padding: .8rem;
 
-    svg {
-        display: block;
+    a { color: #069; }
+
+    #app {
+        order: 0;
+        flex: 0 0 100%;
         width: 100%;
-        height: auto;
+
+        svg {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+    }
+    header {
+        order: 1;
+        flex: 1 1 auto;
+        padding: 1.2rem .6rem .4rem .6rem;
+        color: #373839;
+
+        h1 { font-size: 1.4rem; }
+        p { font-size: 1.3rem; }
+    }
+    footer {
+        order: 2;
+        flex: 0 0 auto;
+        padding: 1.2rem .6rem .4rem .6rem;
+        align-self: flex-end;
+        text-align: right;
     }
 }
 
-#regenerate {
-    display: block;
-    font: inherit;
+
+button {
+    display: inline-block;
+    font: 1.3rem;
     color: inherit;
     margin: 0 auto;
     padding: 0;
     text-transform: none;
     padding: 8px 20px;
-    background-color: #000;
+    background-color: #666;
+    color: #fff;
     border: none;
     border-radius: 3px;
-    color: #666;
     cursor: pointer;
-    transition: color .35s linear;
+    transition: background-color .35s linear;
 
-    &:hover { color: #fff; }
+    &:hover { background-color: #333; }
     &:focus { outline: none; }
 }

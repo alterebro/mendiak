@@ -231,11 +231,13 @@ window.addEventListener('load', () => {
     // Smooth entry / Start after 500ms
     window.setTimeout(() => { Mendiak.update( Mendiak.colors[Math.floor(Math.random() * Mendiak.colors.length)] ) }, 500);
 
-    // Button action
-    document.getElementById('regenerate').addEventListener('click', () => {
+    // Buttons action
+    document.getElementById('update').addEventListener('click', () => {
 
         Mendiak.update( Mendiak.colors[Math.floor(Math.random() * Mendiak.colors.length)] );
     });
+    document.getElementById('save').addEventListener('click', () => { console.log('save clicked!') });
+
 });
 
 
