@@ -258,6 +258,7 @@ window.addEventListener('load', () => {
     // Buttons action
     document.getElementById('update').addEventListener('click', (e) => {
         e.preventDefault();
+        e.target.blur();
         Mendiak.update( Mendiak.colors[Math.floor(Math.random() * Mendiak.colors.length)] );
     });
 
