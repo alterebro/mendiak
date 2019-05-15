@@ -1,4 +1,8 @@
 // Vars
+@mobile-breakpoint  : 580px;
+@mobile 	: ~"all and (max-width: @{mobile-breakpoint})";
+@non-mobile : ~"all and (min-width: @{mobile-breakpoint})";
+
 @transition-ms : .5s;
 
 :root {
@@ -9,7 +13,7 @@
 }
 
 // Pseudo reset-normalizer
-section, header, footer { display: block; }
+section, header, footer, svg { display: block; }
 html, body, h1, p, svg, button {
     margin: 0;
     padding: 0;
@@ -99,7 +103,6 @@ section {
             0 20px 20px -10px rgba(0, 0, 0, .35);
 
         svg {
-            display: block;
             width: 100%;
             height: auto;
             border-radius: 3px;
@@ -122,7 +125,7 @@ section {
         order: 1;
         flex: 1 1 auto;
         margin: 1.2rem 0 0 0;
-        padding: 1rem;
+        padding: 1rem 1rem 2rem;
         transition: color @transition-ms ease-in-out;
         color: rgba(255, 255, 255, .75);
 
@@ -147,7 +150,7 @@ section {
         align-self: flex-end;
         text-align: right;
         margin: 1.2rem 0 0 0;
-        padding: 1rem;
+        padding: 1rem 1rem 2rem;
 
         button {
             display: inline-block;
@@ -158,7 +161,7 @@ section {
             text-transform: none;
             border: none;
             border-radius: 3px;
-            box-shadow: 0 -1px 0 rgba(0, 0, 0, .25), 0 1px 0 rgba(255, 255, 255, .1);
+            box-shadow: 0 -1px 0 rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(255, 255, 255, .1);
             color: rgba(255, 255, 255, .75);
             background-color: var(--color-primary);
             background-size: 12px;
@@ -176,6 +179,34 @@ section {
 
             &#update { background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E %3Cpath fill='%23fff' opacity='.8' d='M500 0h-47a12 12 0 0 0-12 13l4 82A247 247 0 0 0 256 8a248 248 0 0 0 0 496 247 247 0 0 0 166-64 12 12 0 0 0 1-17l-34-34a12 12 0 0 0-17-1 176 176 0 1 1 30-230l-101-5a12 12 0 0 0-13 12v47a12 12 0 0 0 12 12h200a12 12 0 0 0 12-12V12a12 12 0 0 0-12-12z'/%3E %3C/svg%3E"); }
             &#save { background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E %3Cpath fill='%23fff' opacity='.8' d='M216 0h80c13 0 24 11 24 24v168h88c17 0 26 22 14 34L270 378c-8 8-20 8-28 0L90 226c-13-13-4-34 14-34h88V24c0-13 11-24 24-24zm296 376v112c0 13-11 24-24 24H24c-13 0-24-11-24-24V376c0-13 11-24 24-24h147l49 49c20 20 52 20 72 0l49-49h147c13 0 24 11 24 24zm-124 88c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20zm64 0c0-11-9-20-20-20s-20 9-20 20 9 20 20 20 20-9 20-20z'/%3E %3C/svg%3E"); }
+        }
+    }
+}
+
+@media @mobile {
+
+    body { padding: 1.2rem; }
+    section {
+        font-size: 1.1rem;
+
+        #mendiak { border: solid #fff .5rem; }
+
+        > header {
+            flex: 1 1 100%;
+            text-align: center;
+            margin: 1rem 0 0 0;
+            padding: 1rem;
+        }
+
+        > footer {
+            flex: 1 1 100%;
+            text-align: center;
+            margin: 0;
+            padding: .5rem .5rem 2rem .5rem;
+            button {
+                margin: 0 .25rem;
+                font-size: 1rem;
+            }
         }
     }
 }
