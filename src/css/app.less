@@ -39,6 +39,7 @@ body {
     background: var(--color-primary);
     transition: background @transition-ms ease-in-out;
 
+    // Background
     &:before {
         content: '';
         display: block;
@@ -47,6 +48,25 @@ body {
         width: 100%;
         height: 100%;
         background-image: radial-gradient(circle farthest-corner, transparent, rgba(0, 0, 0, .5));
+    }
+
+    // Preloader
+    &:after {
+        content: '';
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 1);
+        z-index: 10;
+        transition:
+            background @transition-ms ease-out,
+            height @transition-ms linear @transition-ms;
+    }
+    &.ready:after {
+        background: rgba(0, 0, 0, 0);
+        height: 0%;
     }
 }
 html, body {
