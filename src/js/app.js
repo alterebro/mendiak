@@ -206,11 +206,14 @@ const Mendiak = {
         createBackground();
         for ( let i = 0; i < app.color.analogous.length; i++ ) {
             let _y = 200 + (i*50);
-            let _inc =  (i*.01) + .1;
+            let _inc =  (10 - (i*1.2)) / 100;
+            let _points = 120 + ((app.color.analogous.length-i) * 5);
+            let _amp = 120 - ((app.color.analogous.length-i) * 10);
             let _mist = 1 - (1 / app.color.analogous.length) * (i+1);
                 _mist = Math.floor(_mist * 100) / 100;
+                _mist = ( (_mist - .1) > 0 ) ? (_mist - .1) : _mist;
 
-            app.hills.push( new Hill({ y: _y, points : 95, amplitude: 50, increment: _inc, color: app.color.self, mist: _mist }) );
+            app.hills.push( new Hill({ y: _y, points : _points, amplitude: _amp, increment: _inc, color: app.color.self, mist: _mist }) );
         }
         app.hills.forEach( el => el.drawPath() );
     },
