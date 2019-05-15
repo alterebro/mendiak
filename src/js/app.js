@@ -190,7 +190,12 @@ class Hill {
 
 
 // -----------------------
-
+const randomInt = function(min, max) {
+	// Returns a random integer between @min and @max (inclusive)
+	let _max = parseInt(max);
+	let _min = parseInt(min);
+	return Math.floor(Math.random() * ((_max - _min) + 1)) + _min;
+}
 
 const Mendiak = {
 
@@ -200,9 +205,11 @@ const Mendiak = {
         app.color = colorPalette('fff');
         createBackground();
         for ( let i = 0; i < app.color.analogous.length; i++ ) {
-            let _y = 200 + (i*40);
+            let _y = 200 + (i*50);
             let _inc =  (i*.01) + .1;
-            let _mist = (i == (app.color.analogous.length-1)) ? 0 : 1 - (i*.1);
+            let _mist = 1 - (1 / app.color.analogous.length) * (i+1);
+                _mist = Math.floor(_mist * 100) / 100;
+
             app.hills.push( new Hill({ y: _y, points : 95, amplitude: 50, increment: _inc, color: app.color.self, mist: _mist }) );
         }
         app.hills.forEach( el => el.drawPath() );
@@ -212,10 +219,12 @@ const Mendiak = {
         app.color = colorPalette(baseColor);
         createBackground();
 
-        let _y = Math.floor(Math.random() * 100) + 150;
-        app.hills.forEach( (el, i) => {
+        let _yStart = randomInt(config.height/4, config.height/3);
+        let _ySpacing = randomInt(20, 30);
+        let _yInc = randomInt(15, 35) / 100;
 
-            _y = _y + (i*10);
+        app.hills.forEach( (el, i) => {
+            let _y = _yStart + ((_ySpacing * i) * (_yInc * i));
             el.drawPath( {y: _y, color: app.color.analogous[i]} )
         });
 
