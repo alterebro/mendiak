@@ -57,7 +57,7 @@ const app = {
     hills : []
 }
 
-const draw = SVG('app').size(config.width, config.height);
+const draw = SVG('mendiak').size(config.width, config.height);
       draw.viewbox({ x: 0, y: 0, width: config.width, height: config.height });
 
 function createBackground() {
@@ -221,8 +221,11 @@ const Mendiak = {
 
         // UI Colors
         let root = document.documentElement;
-            root.style.setProperty('--mendiak-color-primary', app.color.self);
-            root.style.setProperty('--mendiak-color-secondary', app.color.analogous[app.color.analogous.length-2]);
+            root.style.setProperty('--color-primary', app.color.self);
+            root.style.setProperty('--color-complementary', app.color.complementary);
+            root.style.setProperty('--color-dark', app.color.analogous[app.color.analogous.length-2]);
+            root.style.setProperty('--color-light', app.color.analogous[1]);
+
     }
 }
 
