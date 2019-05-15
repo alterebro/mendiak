@@ -254,12 +254,17 @@ window.addEventListener('load', () => {
         document.body.classList.add('ready');
     }, 500);
 
-    // Buttons action
-    document.getElementById('update').addEventListener('click', () => {
 
+    // Buttons action
+    document.getElementById('update').addEventListener('click', (e) => {
+        e.preventDefault();
         Mendiak.update( Mendiak.colors[Math.floor(Math.random() * Mendiak.colors.length)] );
     });
-    document.getElementById('save').addEventListener('click', () => { console.log('save clicked!') });
+
+    document.getElementById('save').addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log('save clicked!')
+    });
 
     // Keyboard action
     document.addEventListener('keyup', e => {
