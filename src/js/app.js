@@ -268,11 +268,18 @@ window.addEventListener('load', () => {
     // Keyboard action
     document.addEventListener('keyup', e => {
 
-		if ( e.keyCode === 13 ) { // Enter key to update
+        console.log(e.keyCode);
+		if ( e.keyCode === 13 ) { // 'Enter key' to update
 
             Mendiak.update( Mendiak.colors[Math.floor(Math.random() * Mendiak.colors.length)] );
         }
-	})
+
+        if ( e.keyCode === 8 ) { // 'Delete key' to show/hide UI elements
+            Array.from(document.querySelectorAll("section header, section footer")).forEach(el => {
+                el.classList.toggle('hidden');
+            })
+        }
+	});
 });
 
 
