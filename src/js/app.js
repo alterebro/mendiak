@@ -252,6 +252,8 @@ window.addEventListener('load', () => {
     window.setTimeout(() => {
         Mendiak.update( Mendiak.colors[Math.floor(Math.random() * Mendiak.colors.length)] )
         document.body.classList.add('ready');
+        cycleText.init();
+
     }, 500);
 
 
@@ -268,7 +270,7 @@ window.addEventListener('load', () => {
     // Keyboard action
     document.addEventListener('keyup', e => {
 
-        console.log(e.keyCode);
+        // console.log(e.keyCode);
 		if ( e.keyCode === 13 ) { // 'Enter key' to update
 
             Mendiak.update( Mendiak.colors[Math.floor(Math.random() * Mendiak.colors.length)] );
@@ -281,6 +283,65 @@ window.addEventListener('load', () => {
         }
 	});
 });
+
+
+
+function requestTimeout(func, delay) {
+	let start = new Date().getTime();
+	let handle = null;
+	let loop = () => { ( (new Date().getTime() - start) >= delay ) ? func.call() : handle = requestAnimationFrame(loop) };
+		handle = requestAnimationFrame(loop);
+	return handle;
+}
+
+const cycleText = {
+
+    _current : -1,
+    _next : null,
+    _strings : [
+        'SVG Landscape Generator',
+        'Euskal Herriko Mendiak Generator',
+        'Générateur de Montagnes du Pays Basque',
+        'Basque Mountains Generator',
+        'Generador de Montañas Vascas'
+    ],
+
+    _el : document.querySelector('h1'),
+
+    cycle : function() {
+
+        let _current = this._strings[this._current];
+        let _next = this._strings[this._next];
+        let _pointer = 0;
+        let _limit = Math.max( _current.length, _next.length );
+
+            _current = _current.padEnd(_limit);
+            _next = _next.padEnd(_limit);
+
+        function step() {
+
+            cycleText._el.innerText = `${_next.slice(0, _pointer)} _ ${_current.slice( _pointer, _limit )}`;
+            if (_pointer < _limit) {
+                _pointer++;
+                requestTimeout(step, 50);
+            } else {
+                window.setTimeout(function() { cycleText.play() }, 2000);
+            }
+        }
+        requestTimeout(step, 50);
+    },
+
+    play : function() {
+        this._current = ((this._current + 1) < this._strings.length) ? (this._current + 1) : 0;
+        this._next = ((this._current + 1) < this._strings.length) ? (this._current + 1) : 0;
+        this.cycle();
+    },
+
+    init : function() {
+        this._el.innerText = this._strings[0];
+        this.play();
+    }
+}
 
 
 
