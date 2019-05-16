@@ -1,8 +1,5 @@
 // Vars
-@mobile-breakpoint  : 580px;
-@mobile 	: ~"all and (max-width: @{mobile-breakpoint})";
-@non-mobile : ~"all and (min-width: @{mobile-breakpoint})";
-
+@mobile 	: ~"all and (max-width: 580px)";
 @transition-ms : .5s;
 
 :root {
@@ -19,7 +16,6 @@ html, body, h1, p, svg, button {
     padding: 0;
 }
 
-
 // UI Layout
 html {
     line-height: 1;
@@ -31,9 +27,9 @@ html {
     cursor: default;
 }
 body {
-    // font-family: "Overpass", -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Droid Sans", "Helvetica Neue", Arial, sans-serif;
     font-size: 1.6em;
+    font-weight: 300;
     line-height: 1.5;
     display: flex;
     align-items: center;
@@ -128,8 +124,12 @@ section {
         padding: 1rem 1rem 2rem;
         transition: color @transition-ms ease-in-out;
         color: rgba(255, 255, 255, .75);
+        text-shadow: 0 -1px 0 rgba(0, 0, 0, .35);
 
-        h1 { font-size: 100%; }
+        h1 {
+            font-size: 100%;
+            font-weight: 700;
+        }
         a {
             text-decoration: none;
             border-bottom: solid transparent 1px;
@@ -159,6 +159,7 @@ section {
             padding: 6px 12px 6px 30px;
             margin: 0 0 0 .5rem;
             text-transform: none;
+            text-shadow: 0 -1px 0 rgba(0, 0, 0, .35);
             border: none;
             border-radius: 3px;
             box-shadow: 0 -1px 0 rgba(0, 0, 0, .25), inset 0 -1px 0 rgba(255, 255, 255, .1);
