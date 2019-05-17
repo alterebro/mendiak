@@ -20,6 +20,8 @@ const draw = SVG(config.output).size(config.width, config.height);
       draw.viewbox({ x: 0, y: 0, width: config.width, height: config.height });
 
 
+// -----------------------
+
 function colorPalette(color) {
     // Creates a new colour palette ( 6 analogous and complementary )
     // Input : a colour string
@@ -61,7 +63,6 @@ function colorPalette(color) {
     return { self, analogous, complementary }
 }
 
-
 function createBackground() {
     // Creates the background in case it doesn't exists
     // Otherwise, updates its colour
@@ -99,7 +100,7 @@ function createBackground() {
     }
 }
 
-
+// -----------------------
 
 class Hill {
 
@@ -292,6 +293,36 @@ class rotatingText {
 
 
 // -----------------------
+function saveImage() {
+
+    let _trigger = document.createElement('a');
+        _trigger.id = 'mendiak-image-trigger';
+        _trigger.target = '_blank';
+
+    let _svg = "data:image/svg+xml;base64," + btoa(draw.node.outerHTML);
+
+    let _canvas = document.createElement("canvas");
+		_canvas.width = config.width*2;
+		_canvas.height = config.height*2;
+	let _ctx = _canvas.getContext("2d");
+
+    let img = document.createElement("img");
+		img.setAttribute("src", _svg);
+        img.addEventListener('load', function() {
+
+            _ctx.drawImage(img, 0, 0, config.width*2, config.height*2);
+
+            _trigger.href = _canvas.toDataURL("image/jpeg");
+            _trigger.addEventListener('click', function() {
+                this.download = 'mendiak.moro.es.jpg';
+            }, false);
+            _trigger.click();
+
+        });
+}
+
+
+// -----------------------
 window.addEventListener('load', () => {
 
     // Init
@@ -346,34 +377,6 @@ window.addEventListener('load', () => {
 });
 
 
-
-function saveImage() {
-
-    let _trigger = document.createElement('a');
-        _trigger.id = 'mendiak-save';
-        _trigger.target = '_blank';
-
-    let _svg = "data:image/svg+xml;base64," + btoa(draw.node.outerHTML);
-
-    let _canvas = document.createElement("canvas");
-		_canvas.width = config.width*2;
-		_canvas.height = config.height*2;
-	let _ctx = _canvas.getContext("2d");
-
-    let img = document.createElement("img");
-		img.setAttribute("src", _svg);
-        img.addEventListener('load', function() {
-
-            _ctx.drawImage(img, 0, 0, config.width*2, config.height*2);
-
-            _trigger.href = _canvas.toDataURL("image/jpeg");
-            _trigger.addEventListener('click', function() {
-                this.download = 'mendiak.moro.es.jpg';
-            }, false);
-            _trigger.click();
-
-        });
-}
 
 
 // ...

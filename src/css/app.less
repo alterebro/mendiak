@@ -128,6 +128,7 @@ section {
             font-size: 100%;
             font-weight: 700;
             position: relative;
+            font-size: 1.3rem;
 
             span[lang] {
                 display: none;
@@ -137,8 +138,8 @@ section {
                     top: 0;
                     display: block;
                     transition:
-                        transform .5s cubic-bezier(.5, 0, .5, 1),
-                        opacity .5s cubic-bezier(.5, 0, .5, 1);
+                        transform .75s cubic-bezier(.9, 0, .1, 1),
+                        opacity .75s cubic-bezier(.9, 0, .1, 1);
                     transform-origin: top center;
                     transform: rotateX(0deg) scaleY(1);
                     opacity: 1;
@@ -146,6 +147,7 @@ section {
                 }
                 &.rotating-text-guest-hidden {
                     position: absolute;
+                    width: 100%;
                     transform-origin: bottom center;
                     transform: rotateX(90deg) scaleY(0);
                     opacity: 0.25;
