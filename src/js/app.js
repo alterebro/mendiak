@@ -2,6 +2,23 @@ import tinycolor from 'tinycolor2';
 import SVG from 'svgjs';
 import perlinNoise3d from 'perlin-noise-3d';
 
+const config = {
+    width : 920,
+    height : 600,
+    ms : 800 // Transition duration in milliseconds
+}
+
+// Create app Object. It gets populated on initialization
+const app = {
+    color : {},
+    background : null,
+    hills : []
+}
+
+const draw = SVG('mendiak').size(config.width, config.height);
+      draw.viewbox({ x: 0, y: 0, width: config.width, height: config.height });
+
+
 function colorPalette(color) {
     // Creates a new colour palette ( 6 analogous and complementary )
     // Input : a colour string
@@ -43,22 +60,6 @@ function colorPalette(color) {
     return { self, analogous, complementary }
 }
 
-
-const config = {
-    width : 920,
-    height : 600,
-    ms : 800 // Transition duration in milliseconds
-}
-
-// Create app Object. It gets populated on initialization
-const app = {
-    color : {},
-    background : null,
-    hills : []
-}
-
-const draw = SVG('mendiak').size(config.width, config.height);
-      draw.viewbox({ x: 0, y: 0, width: config.width, height: config.height });
 
 function createBackground() {
     // Creates the background in case it doesn't exists
@@ -242,49 +243,7 @@ const Mendiak = {
 }
 
 
-
-
-window.addEventListener('load', () => {
-
-    // Init
-    Mendiak.init();
-
-    // Smooth entry / Start after 500ms
-    window.setTimeout(() => {
-        Mendiak.update( Mendiak.colors[Math.floor(Math.random() * Mendiak.colors.length)] )
-        document.body.classList.add('ready');
-    }, 500);
-
-
-    // Buttons action
-    document.getElementById('update').addEventListener('click', () => {
-        Mendiak.update( Mendiak.colors[Math.floor(Math.random() * Mendiak.colors.length)] );
-    });
-
-    document.getElementById('save').addEventListener('click', (e) => {
-        e.preventDefault();
-        console.log('save clicked!')
-    });
-
-    // Keyboard action
-    document.addEventListener('keyup', e => {
-
-        // console.log(e.keyCode);
-		if ( e.keyCode === 13 ) { // 'Enter key' to update
-
-            Mendiak.update( Mendiak.colors[Math.floor(Math.random() * Mendiak.colors.length)] );
-        }
-
-        if ( e.keyCode === 8 ) { // 'Delete key' to show/hide UI elements
-            Array.from(document.querySelectorAll("section header, section footer")).forEach(el => {
-                el.classList.toggle('hidden');
-            })
-        }
-	});
-});
-
-
-
+// -----------------------
 class rotatingText {
 
     constructor(host, guests, delay = 3000) {
@@ -315,6 +274,11 @@ class rotatingText {
 
     stop() { this.rotation = false }
 
+    restart() {
+        this.rotation = true;
+        this.play();
+    }
+
     rotate() {
         this.guests[this.current].classList.add('rotating-text-guest-hidden');
         this.guests[this.next].classList.remove('rotating-text-guest-hidden');
@@ -325,17 +289,59 @@ class rotatingText {
     }
 }
 
-const rotatingHeader = new rotatingText('header h1', document.querySelectorAll('header h1 span[lang]'), 3000);
+
+// -----------------------
+window.addEventListener('load', () => {
+
+    // Init
+    Mendiak.init();
+
+    // Smooth entry / Start after 500ms
+    window.setTimeout(() => {
+        Mendiak.update( Mendiak.colors[Math.floor(Math.random() * Mendiak.colors.length)] )
+        document.body.classList.add('ready');
+
+        // Stop this with rotatingHeader.stop();
+        app.rotatingHeader = new rotatingText('header h1', document.querySelectorAll('header h1 span[lang]'), 3000);
+    }, 500);
 
 
+    // Buttons action
+    document.getElementById('update').addEventListener('click', () => {
+        Mendiak.update( Mendiak.colors[Math.floor(Math.random() * Mendiak.colors.length)] );
+    });
 
+    document.getElementById('save').addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log('save clicked!')
+    });
 
+    // Keyboard action
+    document.addEventListener('keyup', e => {
 
+        // 'Enter key' to update
+		if ( e.keyCode === 13 ) {
 
+            Mendiak.update( Mendiak.colors[Math.floor(Math.random() * Mendiak.colors.length)] );
+        }
 
+        // 'Delete key' to show/hide UI elements
+        if ( e.keyCode === 8 ) {
+            Array.from(document.querySelectorAll("section header, section footer")).forEach(el => {
+                if ( el.classList.contains('hidden') ) {
 
+                    el.classList.remove('hidden');
+                    app.rotatingHeader.restart();
 
+                } else {
 
+                    el.classList.add('hidden');
+                    app.rotatingHeader.stop();
+                }
+            })
+        }
+	});
+});
 
 
 
