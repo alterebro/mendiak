@@ -3,6 +3,7 @@ import SVG from 'svgjs';
 import perlinNoise3d from 'perlin-noise-3d';
 
 const config = {
+    output: 'mendiak',
     width : 920,
     height : 600,
     ms : 800 // Transition duration in milliseconds
@@ -15,7 +16,7 @@ const app = {
     hills : []
 }
 
-const draw = SVG('mendiak').size(config.width, config.height);
+const draw = SVG(config.output).size(config.width, config.height);
       draw.viewbox({ x: 0, y: 0, width: config.width, height: config.height });
 
 
@@ -314,6 +315,7 @@ window.addEventListener('load', () => {
     document.getElementById('save').addEventListener('click', (e) => {
         e.preventDefault();
         console.log('save clicked!')
+        saveImage();
     });
 
     // Keyboard action
@@ -344,6 +346,31 @@ window.addEventListener('load', () => {
 });
 
 
+
+function saveImage() {
+
+    let _svg = draw.node.outerHTML;
+	let _svg_64 = btoa(_svg);
+	let _svg_data = "data:image/svg+xml;base64," + _svg_64;
+
+    let img_canvas = document.createElement("canvas");
+		img_canvas.width = config.width;
+		img_canvas.height = config.height;
+	let ctx = img_canvas.getContext("2d");
+
+    let img = document.createElement("img");
+		img.setAttribute("src", _svg_data);
+		img.onload = function() {
+
+			ctx.drawImage( img, 0, 0 );
+			let _png = img_canvas.toDataURL("image/png");
+
+            let imgWindow = window.open("")
+                imgWindow.document.write("<iframe width='100%' height='100%' src='" + _png +"'></iframe>")
+
+	};
+
+}
 
 
 // ...
