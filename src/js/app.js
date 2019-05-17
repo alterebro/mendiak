@@ -349,27 +349,30 @@ window.addEventListener('load', () => {
 
 function saveImage() {
 
-    let _svg = draw.node.outerHTML;
-	let _svg_64 = btoa(_svg);
-	let _svg_data = "data:image/svg+xml;base64," + _svg_64;
+    let _trigger = document.createElement('a');
+        _trigger.id = 'mendiak-save';
+        _trigger.target = '_blank';
 
-    let img_canvas = document.createElement("canvas");
-		img_canvas.width = config.width;
-		img_canvas.height = config.height;
-	let ctx = img_canvas.getContext("2d");
+    let _svg = "data:image/svg+xml;base64," + btoa(draw.node.outerHTML);
+
+    let _canvas = document.createElement("canvas");
+		_canvas.width = config.width*2;
+		_canvas.height = config.height*2;
+	let _ctx = _canvas.getContext("2d");
 
     let img = document.createElement("img");
-		img.setAttribute("src", _svg_data);
-		img.onload = function() {
+		img.setAttribute("src", _svg);
+        img.addEventListener('load', function() {
 
-			ctx.drawImage( img, 0, 0 );
-			let _png = img_canvas.toDataURL("image/png");
+            _ctx.drawImage(img, 0, 0, config.width*2, config.height*2);
 
-            let imgWindow = window.open("")
-                imgWindow.document.write("<iframe width='100%' height='100%' src='" + _png +"'></iframe>")
+            _trigger.href = _canvas.toDataURL("image/jpeg");
+            _trigger.addEventListener('click', function() {
+                this.download = 'mendiak.moro.es.jpg';
+            }, false);
+            _trigger.click();
 
-	};
-
+        });
 }
 
 
