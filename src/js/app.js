@@ -243,6 +243,7 @@ const Mendiak = {
 
 
 
+
 window.addEventListener('load', () => {
 
     // Init
@@ -252,8 +253,6 @@ window.addEventListener('load', () => {
     window.setTimeout(() => {
         Mendiak.update( Mendiak.colors[Math.floor(Math.random() * Mendiak.colors.length)] )
         document.body.classList.add('ready');
-        cycleText.init();
-
     }, 500);
 
 
@@ -286,62 +285,47 @@ window.addEventListener('load', () => {
 
 
 
-function requestTimeout(func, delay) {
-	let start = new Date().getTime();
-	let handle = null;
-	let loop = () => { ( (new Date().getTime() - start) >= delay ) ? func.call() : handle = requestAnimationFrame(loop) };
-		handle = requestAnimationFrame(loop);
-	return handle;
-}
+class rotatingText {
 
-const cycleText = {
+    constructor(host, guests, delay = 3000) {
+        this.host = document.querySelector(host);
+        this.guests = Array.from(guests);
+        this.delay = delay;
+        this.rotation = true;
+        this.current = 0;
+        this.next = 1;
+        if (this.guests.length > 1) { this.init() }
+    }
 
-    _current : -1,
-    _next : null,
-    _strings : [
-        'SVG Landscape Generator',
-        'Euskal Herriko Mendiak Generator',
-        'Générateur de Montagnes du Pays Basque',
-        'Basque Mountains Generator',
-        'Generador de Montañas Vascas'
-    ],
+    init() {
+        this.host.innerHTML = '';
+        this.guests.forEach((el, i) => {
+            el.classList.add( (i == 0) ? 'rotating-text-guest' : 'rotating-text-guest-hidden' )
+            this.host.appendChild(el);
+        });
+        this.play();
+    }
 
-    _el : document.querySelector('h1'),
-
-    cycle : function() {
-
-        let _current = this._strings[this._current];
-        let _next = this._strings[this._next];
-        let _pointer = 0;
-        let _limit = Math.max( _current.length, _next.length );
-
-            _current = _current.padEnd(_limit);
-            _next = _next.padEnd(_limit);
-
-        function step() {
-
-            cycleText._el.innerText = `${_next.slice(0, _pointer)} _ ${_current.slice( _pointer, _limit )}`;
-            if (_pointer < _limit) {
-                _pointer++;
-                requestTimeout(step, 50);
-            } else {
-                window.setTimeout(function() { cycleText.play() }, 2000);
-            }
+    play() {
+        if ( this.rotation ) {
+            let _self = this;
+            window.setTimeout(function() { _self.rotate() }, this.delay);
         }
-        requestTimeout(step, 50);
-    },
+    }
 
-    play : function() {
-        this._current = ((this._current + 1) < this._strings.length) ? (this._current + 1) : 0;
-        this._next = ((this._current + 1) < this._strings.length) ? (this._current + 1) : 0;
-        this.cycle();
-    },
+    stop() { this.rotation = false }
 
-    init : function() {
-        this._el.innerText = this._strings[0];
+    rotate() {
+        this.guests[this.current].classList.add('rotating-text-guest-hidden');
+        this.guests[this.next].classList.remove('rotating-text-guest-hidden');
+        this.guests[this.next].classList.add('rotating-text-guest');
+        this.current = this.next;
+        this.next = (this.current+1 >= this.guests.length) ? 0 : this.current+1;
         this.play();
     }
 }
+
+const rotatingHeader = new rotatingText('header h1', document.querySelectorAll('header h1 span[lang]'), 3000);
 
 
 
