@@ -5,7 +5,7 @@
   "main": "src/index.html",
   "scripts": {
     "dev": "parcel src/index.html",
-    "serve" : "npm run build && ip=`ipconfig getifaddr en0`; php -S $ip:8000 -t dist/",
+    "serve": "npm run build && ip=`ipconfig getifaddr en0`; php -S $ip:8000 -t dist/",
     "prebuild": "rm -rf dist",
     "build": "parcel build src/index.html --no-source-maps && cp src/_redirects dist/",
     "deploy": "npm run build && netlify deploy --prod"
@@ -25,6 +25,7 @@
     "cssnano": "^4.1.10",
     "less": "^3.9.0",
     "perlin-noise-3d": "^0.5.0",
+    "svg.filter.js": "^2.0.2",
     "svgjs": "^2.6.2",
     "tinycolor2": "^1.4.1"
   }
