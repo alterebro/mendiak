@@ -411,6 +411,12 @@ window.addEventListener('load', () => {
     });
     document.getElementById('save').addEventListener('mouseout', (e) => { e.target.blur() });
 
+    // Image Action
+    document.getElementById('mendiak').addEventListener('dblclick', () => {
+
+        Mendiak.update( Mendiak.colors[Math.floor(Math.random() * Mendiak.colors.length)] );
+    });
+
     // Keyboard action
     document.addEventListener('keyup', e => {
 
