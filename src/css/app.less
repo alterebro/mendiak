@@ -157,7 +157,7 @@ section {
         }
         a {
             text-decoration: none;
-            border-bottom: solid transparent 1px;
+            border-bottom: solid rgba(255, 255, 255, .1) 1px;
             color: var(--color-light);
             transition:
                 color @transition-ms/2 ease-in-out,
@@ -166,6 +166,11 @@ section {
                 border-bottom: solid var(--color-light) 1px;
                 color: #fff;
             }
+        }
+        span[title="copyleft"] {
+            display: inline-block;
+            padding: 0 2px 0 0;
+            transform: rotateY(180deg);
         }
     }
 
