@@ -7,7 +7,7 @@
     "dev": "parcel src/index.html",
     "serve": "npm run build && ip=`ipconfig getifaddr en0`; php -S $ip:8000 -t dist/",
     "prebuild": "rm -rf dist",
-    "build": "parcel build src/index.html --no-source-maps && cp src/_redirects dist/",
+    "build": "parcel build src/index.html --no-source-maps && cp -a src/static/. dist/",
     "deploy": "npm run build && netlify deploy --prod"
   },
   "repository": {
