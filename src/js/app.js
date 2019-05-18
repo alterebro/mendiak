@@ -252,6 +252,7 @@ class rotatingText {
         this.host = document.querySelector(host);
         this.guests = Array.from(guests);
         this.delay = delay;
+        this.timeout = null;
         this.rotation = true;
         this.current = 0;
         this.next = 1;
@@ -270,11 +271,15 @@ class rotatingText {
     play() {
         if ( this.rotation ) {
             let _self = this;
-            window.setTimeout(function() { _self.rotate() }, this.delay);
+            window.clearTimeout(this.timeout);
+            this.timeout = window.setTimeout(function() { _self.rotate() }, this.delay);
         }
     }
 
-    stop() { this.rotation = false }
+    stop() {
+        this.rotation = false
+        window.clearTimeout(this.timeout);
+    }
 
     restart() {
         this.rotation = true;
