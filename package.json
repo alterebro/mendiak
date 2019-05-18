@@ -25,8 +25,8 @@
     "cssnano": "^4.1.10",
     "less": "^3.9.0",
     "perlin-noise-3d": "^0.5.0",
-    "svg.filter.js": "^2.0.2",
     "svgjs": "^2.6.2",
     "tinycolor2": "^1.4.1"
-  }
+  },
+  "dependencies": {}
 }
