@@ -140,7 +140,7 @@ section {
                     transition:
                         transform .75s cubic-bezier(.9, 0, .1, 1),
                         opacity .75s cubic-bezier(.9, 0, .1, 1);
-                    transform-origin: top center;
+                    transform-origin: bottom center;
                     transform: rotateX(0deg) scaleY(1);
                     opacity: 1;
                     z-index: 1;
@@ -148,8 +148,8 @@ section {
                 &.rotating-text-guest-hidden {
                     position: absolute;
                     width: 100%;
-                    transform-origin: bottom center;
-                    transform: rotateX(90deg) scaleY(0);
+                    transform-origin: top center;
+                    transform: rotateX(-90deg) scaleY(0);
                     opacity: 0.25;
                     z-index: 0;
                 }

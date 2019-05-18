@@ -333,14 +333,29 @@ window.addEventListener('load', () => {
     // Init
     Mendiak.init();
 
+    Array.from(document.querySelectorAll("section header, section footer")).forEach(el => {
+        el.classList.add('hidden');
+        // app.rotatingHeader.stop();
+    })
+
+
     // Smooth entry / Start after 500ms
     window.setTimeout(() => {
         Mendiak.update( Mendiak.colors[Math.floor(Math.random() * Mendiak.colors.length)] )
         document.body.classList.add('ready');
 
-        // Stop this with rotatingHeader.stop();
-        app.rotatingHeader = new rotatingText('header h1', document.querySelectorAll('header h1 span[lang]'), 4000);
     }, 500);
+
+    // Follow up... after 1000ms
+    window.setTimeout(() => {
+
+        Array.from(document.querySelectorAll("section header, section footer")).forEach(el => {
+            el.classList.remove('hidden');
+        })
+        // Stop this with rotatingHeader.stop();
+        app.rotatingHeader = new rotatingText('header h1', document.querySelectorAll('header h1 span[lang]'), 3500);
+
+    }, 1200);
 
 
     // Buttons action
