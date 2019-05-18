@@ -63,42 +63,6 @@ function colorPalette(color) {
     return { self, analogous, complementary }
 }
 
-function createBackground() {
-    // Creates the background in case it doesn't exists
-    // Otherwise, updates its colour
-
-    if (!app.background) {
-
-        // Solid Background
-        app.background = draw.rect(config.width, config.height).fill(app.color.complementary);
-
-        // Foggy floor
-        draw.rect(config.width, config.height).fill(draw.gradient('linear', function(stop) {
-
-            stop.at({ offset: 0, color: '#fff', opacity: 0 })
-            stop.at({ offset: .65, color: '#fff', opacity: .8 })
-            stop.at({ offset: 1, color: '#fff', opacity: .8 })
-
-        }).from(0, 0).to(0, 1));
-
-        // Sunlight
-        const sun = { size : Math.min(config.width, config.height) }
-              sun.offset = {
-                x : Math.round((config.width - sun.size) / 2),
-                y : Math.round((config.height - sun.size) / 2)
-              }
-        draw.rect(sun.size, sun.size).x(sun.offset.x).y(sun.offset.y).fill(draw.gradient('radial', function(stop) {
-
-            stop.at({ offset: 0, color: '#fff', opacity: .5 })
-            stop.at({ offset: 1, color: '#fff', opacity: 0 })
-
-        }).from(.5, .5).to(.5, .5).radius(.45) );
-
-    } else {
-
-        app.background.animate(config.ms, '-', 0).fill(app.color.complementary);
-    }
-}
 
 // -----------------------
 
@@ -206,7 +170,8 @@ const Mendiak = {
 
     init : function() {
         app.color = colorPalette('fff');
-        createBackground();
+        Mendiak.UI.createBackground();
+
         for ( let i = 0; i < app.color.analogous.length; i++ ) {
             let _y = 200 + (i*50);
             let _inc =  (10 - (i*1.2)) / 100;
@@ -223,7 +188,7 @@ const Mendiak = {
 
     update : function(baseColor) {
         app.color = colorPalette(baseColor);
-        createBackground();
+        Mendiak.UI.createBackground();
 
         let _yStart = randomInt(config.height/4, config.height/3);
         let _ySpacing = randomInt(20, 30);
@@ -241,6 +206,89 @@ const Mendiak = {
             root.style.setProperty('--color-dark', app.color.analogous[app.color.analogous.length-2]);
             root.style.setProperty('--color-light', app.color.analogous[1]);
 
+    },
+
+    UI : {
+
+        createBackground : function() {
+            // Creates the background in case it doesn't exists
+            // Otherwise, updates its colour
+
+            if (!app.background) {
+
+                // Solid Background
+                app.background = draw.rect(config.width, config.height).fill(app.color.complementary);
+
+                // Foggy floor
+                draw.rect(config.width, config.height).fill(draw.gradient('linear', function(stop) {
+
+                    stop.at({ offset: 0, color: '#fff', opacity: 0 })
+                    stop.at({ offset: .65, color: '#fff', opacity: .8 })
+                    stop.at({ offset: 1, color: '#fff', opacity: .8 })
+
+                }).from(0, 0).to(0, 1));
+
+                // Sunlight
+                const sun = { size : Math.min(config.width, config.height) }
+                      sun.offset = {
+                        x : Math.round((config.width - sun.size) / 2),
+                        y : Math.round((config.height - sun.size) / 2)
+                      }
+                draw.rect(sun.size, sun.size).x(sun.offset.x).y(sun.offset.y).fill(draw.gradient('radial', function(stop) {
+
+                    stop.at({ offset: 0, color: '#fff', opacity: .5 })
+                    stop.at({ offset: 1, color: '#fff', opacity: 0 })
+
+                }).from(.5, .5).to(.5, .5).radius(.45) );
+
+            } else {
+
+                app.background.animate(config.ms, '-', 0).fill(app.color.complementary);
+            }
+        },
+
+        saveImage : function() {
+
+            let _trigger = document.createElement('a');
+                _trigger.id = 'mendiak-image-trigger';
+                _trigger.target = '_blank';
+
+            let _svg = "data:image/svg+xml;base64," + btoa(draw.node.outerHTML);
+
+            let _canvas = document.createElement("canvas");
+        		_canvas.width = config.width*2;
+        		_canvas.height = config.height*2;
+        	let _ctx = _canvas.getContext("2d");
+
+            let img = document.createElement("img");
+        		img.setAttribute("src", _svg);
+                img.addEventListener('load', function() {
+
+                    _ctx.drawImage(img, 0, 0, config.width*2, config.height*2);
+
+                    _trigger.href = _canvas.toDataURL("image/jpeg");
+                    _trigger.addEventListener('click', function() {
+                        this.download = 'mendiak.moro.es.jpg';
+                    }, false);
+                    _trigger.click();
+
+                });
+        },
+
+        isVisible : true,
+        show : function() {
+            Array.from(document.querySelectorAll("section header, section footer")).forEach(el => {
+                el.classList.remove('hidden');
+            })
+            Mendiak.UI.isVisible = true;
+        },
+        hide : function() {
+
+            Array.from(document.querySelectorAll("section header, section footer")).forEach(el => {
+                el.classList.add('hidden');
+            })
+            Mendiak.UI.isVisible = false;
+        }
     }
 }
 
@@ -297,47 +345,13 @@ class rotatingText {
 }
 
 
-// -----------------------
-function saveImage() {
-
-    let _trigger = document.createElement('a');
-        _trigger.id = 'mendiak-image-trigger';
-        _trigger.target = '_blank';
-
-    let _svg = "data:image/svg+xml;base64," + btoa(draw.node.outerHTML);
-
-    let _canvas = document.createElement("canvas");
-		_canvas.width = config.width*2;
-		_canvas.height = config.height*2;
-	let _ctx = _canvas.getContext("2d");
-
-    let img = document.createElement("img");
-		img.setAttribute("src", _svg);
-        img.addEventListener('load', function() {
-
-            _ctx.drawImage(img, 0, 0, config.width*2, config.height*2);
-
-            _trigger.href = _canvas.toDataURL("image/jpeg");
-            _trigger.addEventListener('click', function() {
-                this.download = 'mendiak.moro.es.jpg';
-            }, false);
-            _trigger.click();
-
-        });
-}
-
 
 // -----------------------
 window.addEventListener('load', () => {
 
     // Init
     Mendiak.init();
-
-    Array.from(document.querySelectorAll("section header, section footer")).forEach(el => {
-        el.classList.add('hidden');
-        // app.rotatingHeader.stop();
-    })
-
+    Mendiak.UI.hide();
 
     // Smooth entry / Start after 500ms
     window.setTimeout(() => {
@@ -349,9 +363,8 @@ window.addEventListener('load', () => {
     // Follow up... after 1000ms
     window.setTimeout(() => {
 
-        Array.from(document.querySelectorAll("section header, section footer")).forEach(el => {
-            el.classList.remove('hidden');
-        })
+        Mendiak.UI.show();
+
         // Stop this with rotatingHeader.stop();
         app.rotatingHeader = new rotatingText('header h1', document.querySelectorAll('header h1 span[lang]'), 3500);
 
@@ -360,38 +373,39 @@ window.addEventListener('load', () => {
 
     // Buttons action
     document.getElementById('update').addEventListener('click', (e) => {
+        e.preventDefault();
         Mendiak.update( Mendiak.colors[Math.floor(Math.random() * Mendiak.colors.length)] );
-        e.target.blur();
     });
+    document.getElementById('update').addEventListener('mouseout', (e) => { e.target.blur() });
 
     document.getElementById('save').addEventListener('click', (e) => {
         e.preventDefault();
-        saveImage();
+        Mendiak.UI.saveImage();
     });
+    document.getElementById('save').addEventListener('mouseout', (e) => { e.target.blur() });
 
     // Keyboard action
     document.addEventListener('keyup', e => {
 
-        // 'Enter key' to update
-		if ( e.keyCode === 13 ) {
+        switch (e.keyCode) {
 
-            Mendiak.update( Mendiak.colors[Math.floor(Math.random() * Mendiak.colors.length)] );
-        }
+            // Enter key
+            case 13:
+                Mendiak.update( Mendiak.colors[Math.floor(Math.random() * Mendiak.colors.length)] );
+                break;
 
-        // 'Delete key' to show/hide UI elements
-        if ( e.keyCode === 8 ) {
-            Array.from(document.querySelectorAll("section header, section footer")).forEach(el => {
-                if ( el.classList.contains('hidden') ) {
-
-                    el.classList.remove('hidden');
-                    app.rotatingHeader.restart();
-
-                } else {
-
-                    el.classList.add('hidden');
+            // Delete Key
+            case 8:
+                if ( Mendiak.UI.isVisible ) {
+                    Mendiak.UI.hide();
                     app.rotatingHeader.stop();
+                } else {
+                    Mendiak.UI.show();
+                    app.rotatingHeader.restart();
                 }
-            })
+                break;
+
+            default: break;
         }
 	});
 });
