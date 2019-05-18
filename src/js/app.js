@@ -334,18 +334,18 @@ window.addEventListener('load', () => {
         document.body.classList.add('ready');
 
         // Stop this with rotatingHeader.stop();
-        app.rotatingHeader = new rotatingText('header h1', document.querySelectorAll('header h1 span[lang]'), 3000);
+        app.rotatingHeader = new rotatingText('header h1', document.querySelectorAll('header h1 span[lang]'), 4000);
     }, 500);
 
 
     // Buttons action
-    document.getElementById('update').addEventListener('click', () => {
+    document.getElementById('update').addEventListener('click', (e) => {
         Mendiak.update( Mendiak.colors[Math.floor(Math.random() * Mendiak.colors.length)] );
+        e.target.blur();
     });
 
     document.getElementById('save').addEventListener('click', (e) => {
         e.preventDefault();
-        console.log('save clicked!')
         saveImage();
     });
 
