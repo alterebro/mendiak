@@ -82,6 +82,8 @@ html, body {
 section {
     display: flex;
     flex-wrap: wrap;
+    flex-direction: row;
+    align-content: stretch;
     justify-content: space-between;
     max-width: 840px;
     margin: auto;
@@ -177,15 +179,15 @@ section {
     > footer {
         order: 2;
         flex: 0 0 auto;
-        align-self: flex-end;
         text-align: right;
+        display: flex;
 
         button {
             display: inline-block;
             font: inherit;
             cursor: pointer;
             padding: 6px 12px 6px 30px;
-            margin: 0 0 0 .5rem;
+            margin: auto 0 0 .5rem;
             text-transform: none;
             text-shadow: 0 -1px 0 rgba(0, 0, 0, .35);
             border: none;
@@ -252,6 +254,7 @@ section {
             text-align: center;
             margin: 0;
             padding: .5rem .5rem 2rem .5rem;
+            display: block;
             button {
                 margin: 0 .25rem;
                 font-size: 1rem;
