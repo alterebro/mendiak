@@ -168,6 +168,10 @@ const Mendiak = {
 
     colors : ['d08635', '5638a4', '626866', '1e6686', '86233d', '4182d9', '3b6e9e', '3669a2', '793961', 'ca78c6', '306dbd', '464d32', 'ab4a5b', '5a28c2', '623373', '9a4743', '64bfbd', '20391b'],
 
+    randomColor : function() {
+        return Mendiak.colors[Math.floor(Math.random() * Mendiak.colors.length)];
+    },
+
     init : function() {
         app.color = colorPalette('fff');
         Mendiak.UI.createBackground();
@@ -187,7 +191,7 @@ const Mendiak = {
         Mendiak.UI.createForeground();
     },
 
-    update : function(baseColor) {
+    update : function(baseColor = this.randomColor()) {
         app.color = colorPalette(baseColor);
         Mendiak.UI.createBackground();
 
@@ -382,7 +386,7 @@ window.addEventListener('load', () => {
 
     // Smooth entry / Start after 500ms
     window.setTimeout(() => {
-        Mendiak.update( Mendiak.colors[Math.floor(Math.random() * Mendiak.colors.length)] )
+        Mendiak.update();
         document.body.classList.add('ready');
 
     }, 500);
@@ -391,17 +395,18 @@ window.addEventListener('load', () => {
     window.setTimeout(() => {
 
         Mendiak.UI.show();
-
-        // Stop this with rotatingHeader.stop();
         app.rotatingHeader = new rotatingText('header h1', document.querySelectorAll('header h1 span[lang]'), 3500);
 
     }, 1200);
+
+    // Intro Ends with another update at 2s
+    window.setTimeout(() => { Mendiak.update() }, 2000);
 
 
     // Buttons action
     document.getElementById('update').addEventListener('click', (e) => {
         e.preventDefault();
-        Mendiak.update( Mendiak.colors[Math.floor(Math.random() * Mendiak.colors.length)] );
+        Mendiak.update();
     });
     document.getElementById('update').addEventListener('mouseout', (e) => { e.target.blur() });
 
@@ -412,10 +417,7 @@ window.addEventListener('load', () => {
     document.getElementById('save').addEventListener('mouseout', (e) => { e.target.blur() });
 
     // Image Action
-    document.getElementById('mendiak').addEventListener('dblclick', () => {
-
-        Mendiak.update( Mendiak.colors[Math.floor(Math.random() * Mendiak.colors.length)] );
-    });
+    document.getElementById('mendiak').addEventListener('dblclick', () => { Mendiak.update() });
 
     // Keyboard action
     document.addEventListener('keyup', e => {
@@ -424,7 +426,7 @@ window.addEventListener('load', () => {
 
             // Enter key
             case 13:
-                Mendiak.update( Mendiak.colors[Math.floor(Math.random() * Mendiak.colors.length)] );
+                Mendiak.update();
                 break;
 
             // Delete Key
