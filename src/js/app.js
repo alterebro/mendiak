@@ -380,18 +380,21 @@ class rotatingText {
 // -----------------------
 window.addEventListener('load', () => {
 
+    // ---------------
     // Init
     Mendiak.init();
     Mendiak.UI.hide();
 
-    // Smooth entry / Start after 500ms
+    // ---------------
+    // Intro :
+    // - Smooth entry / Start after 500ms
     window.setTimeout(() => {
         Mendiak.update();
         document.body.classList.add('ready');
 
     }, 500);
 
-    // Follow up... after 1000ms
+    // - Follow up... after 1000ms
     window.setTimeout(() => {
 
         Mendiak.UI.show();
@@ -399,26 +402,42 @@ window.addEventListener('load', () => {
 
     }, 1200);
 
-    // Intro Ends with another update at 2s
+    // - Intro Ends with another update at 2s
     window.setTimeout(() => { Mendiak.update() }, 2000);
 
-
-    // Buttons action
+    // ---------------
+    // Buttons Action :
+    // - Update
     document.getElementById('update').addEventListener('click', (e) => {
         e.preventDefault();
         Mendiak.update();
     });
-    document.getElementById('update').addEventListener('mouseout', (e) => { e.target.blur() });
 
+    // - Save
     document.getElementById('save').addEventListener('click', (e) => {
         e.preventDefault();
         Mendiak.UI.saveImage();
     });
-    document.getElementById('save').addEventListener('mouseout', (e) => { e.target.blur() });
 
+    // - Share
+    document.getElementById('share').addEventListener('click', (e) => {
+        e.preventDefault();
+        console.log('share function here...');
+    });
+
+    // (Blur'em after click'em)
+    Array.from(document.querySelectorAll('footer button')).forEach(el => {
+        el.addEventListener('mouseout', e => {
+            if ( document.activeElement == e.target ) { e.target.blur() }
+        })
+    });
+
+
+    // ---------------
     // Image Action
     document.getElementById('mendiak').addEventListener('dblclick', () => { Mendiak.update() });
 
+    // ---------------
     // Keyboard action
     document.addEventListener('keyup', e => {
 
