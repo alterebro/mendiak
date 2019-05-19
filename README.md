@@ -1,8 +1,8 @@
 # ⛰️ mendiak &rsaquo; [mendiak.moro.es](https://mendiak.moro.es)
 
-> **Basque Mountains Generator / Generador de Montañas Vascas / Euskal Herriko Mendiak Sortzailea**.
-> SVG, JavaScript and Perlin Noise generation of Basque Mountains Landscape Wallpaper Images.
-> Built using: [Parcel](https://parceljs.org/), [SVG,js](https://svgjs.com/), [TinyColor](https://github.com/bgrins/TinyColor) + [Perlin Noise](https://www.npmjs.com/package/perlin-noise-3d).
+> **Basque Mountains Generator / Generador de Montañas Vascas / Euskal Herriko Mendiak Sortzailea.**  
+> SVG, JavaScript and Perlin Noise generation of Basque Mountains Landscape Wallpaper Images.  
+> Built using: [Parcel](https://parceljs.org/), [SVG,js](https://svgjs.com/), [TinyColor](https://github.com/bgrins/TinyColor) and [Perlin Noise](https://www.npmjs.com/package/perlin-noise-3d). Deployment with [Netlify](https://www.netlify.com/)
 
 [![mendiak](src/static/mendiak.jpg)](https://mendiak.moro.es)
 
@@ -10,36 +10,47 @@
 
 ## Development
 
+Clone or [download](https://github.com/alterebro/mendiak/archive/master.zip) the repository, install development dependencies and install Parcel if you already haven't.
+
 ```sh
-$ npm run dev
-# or =
-$ parcel src/index.html
+$ git clone https://github.com/alterebro/mendiak.git
+$ cd mendiak/
+$ npm install
+$ npm install -g parcel-bundler
 ```
 
-## Build
+### — Start Development Server
+
+```sh
+$ npm run dev
+# $ parcel src/index.html
+```
+
+### — Build Project
 
 ```sh
 $ npm run build
-# or =
-$ rm -rf dist
-$ parcel build src/index.html --no-source-maps && cp -a src/static/. dist/
+# $ rm -rf dist
+# $ parcel build src/index.html --no-source-maps && cp -a src/static/. dist/
 ```
 
-## Serve (/dist files)
+### — Serve built project (/dist files)
 
 ```sh
 $ npm run serve
-# or =
-$ npm run build
-$ ip=`ipconfig getifaddr en0`; php -S $ip:8000 -t dist/
+# $ npm run build
+# $ ip=`ipconfig getifaddr en0`; php -S $ip:8000 -t dist/
 ```
 
-## Deploy (via Netlify)
+### — Deploy (via Netlify)
 
-<mark>No need for this: <em>Auto publishing is on. Deploys from master are published automatically</em>.</mark>
+No need for this: *Auto publishing is on. Deploys from master are published automatically*.
 
 ```sh
 $ npm run deploy
-# or =
-$ npm run build && netlify deploy --prod
+# $ npm run build && netlify deploy --prod
 ```
+
+---
+
+*Jorge Moreno aka [Moro](https://moro.es) &mdash; [@alterebro](https://twitter.com/alterebro)*.
