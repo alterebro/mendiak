@@ -422,7 +422,12 @@ window.addEventListener('load', () => {
     // - Share
     document.getElementById('share').addEventListener('click', (e) => {
         e.preventDefault();
-        console.log('share function here...');
+
+        let _txt = document.title;
+        let _url = document.querySelector("link[rel='canonical']").href;
+        let _tweet = `https://twitter.com/intent/tweet?text=${encodeURIComponent(_txt)}&amp;url=${encodeURIComponent(_url)}&amp;via=alterebro`;
+        let modal = window.open(_tweet, '_blank', 'width=550,height=440');
+			modal.focus();
     });
 
     // (Blur'em after click'em)
