@@ -1,4 +1,12 @@
-# mendiak
+# ⛰️ mendiak &rsaquo; [mendiak.moro.es](https://mendiak.moro.es)
+
+> **Basque Mountains Generator / Generador de Montañas Vascas / Euskal Herriko Mendiak Sortzailea**.
+> SVG, JavaScript and Perlin Noise generation of Basque Mountains Landscape Wallpaper Images.
+> Built using: [Parcel](https://parceljs.org/), [SVG,js](https://svgjs.com/), [TinyColor](https://github.com/bgrins/TinyColor) + [Perlin Noise](https://www.npmjs.com/package/perlin-noise-3d).
+
+[![mendiak](src/static/mendiak.jpg)](https://mendiak.moro.es)
+
+---
 
 ## Development
 
@@ -14,7 +22,7 @@ $ parcel src/index.html
 $ npm run build
 # or =
 $ rm -rf dist
-$ parcel build src/index.html --no-source-maps && cp src/_redirects dist/
+$ parcel build src/index.html --no-source-maps && cp -a src/static/. dist/
 ```
 
 ## Serve (/dist files)
