@@ -1,7 +1,7 @@
 {
   "name": "mendiak",
   "version": "1.0.0",
-  "description": "Mendiak Generator",
+  "description": "Euskal Heriko Mendiak / Basque Mountains Generator",
   "main": "src/index.html",
   "scripts": {
     "dev": "parcel src/index.html",
@@ -14,13 +14,19 @@
     "type": "git",
     "url": "git+https://github.com/alterebro/mendiak.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+      "SVG",
+      "perlin",
+      "noise",
+      "landscape",
+      "generator"
+  ],
+  "author": "Jorge Moreno, moro.es (@alterebro)",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/alterebro/mendiak/issues"
   },
-  "homepage": "https://github.com/alterebro/mendiak#readme",
+  "homepage": "https://mendiak.moro.es",
   "devDependencies": {
     "cssnano": "^4.1.10",
     "less": "^3.9.0",
