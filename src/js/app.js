@@ -188,12 +188,13 @@ const Mendiak = {
         app.color = colorPalette('fff');
         Mendiak.UI.createBackground();
 
-        for ( let i = 0; i < app.color.analogous.length; i++ ) {
+        let _numItems = app.color.analogous.length;
+        for ( let i = 0; i < _numItems; i++ ) {
             let _y = 200 + (i*50);
             let _inc =  (10 - (i*1.2)) / 100;
-            let _points = 120 + ((app.color.analogous.length-i) * 5);
-            let _amp = 120 - ((app.color.analogous.length-i) * 10);
-            let _mist = 1 - (1 / app.color.analogous.length) * (i+1);
+            let _points = 120 + ((_numItems-i) * 5);
+            let _amp = 120 - ((_numItems-i) * 10);
+            let _mist = 1 - (1 / _numItems) * (i+1);
                 _mist = Math.floor(_mist * 100) / 100;
                 _mist = ( (_mist - .1) > 0 ) ? (_mist - .1) : _mist;
 
