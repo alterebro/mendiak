@@ -170,13 +170,18 @@ const Mendiak = {
 
     randomColor : function() {
 
-        // Get a color from the above list (Mendiak.colors) :
+        // A : Get a color from the above list (Mendiak.colors) :
         // return Mendiak.colors[Math.floor(Math.random() * Mendiak.colors.length)];
 
-        // Generate a random color under some constrains :
+        // B : Generate a random color under some constrains :
         let _rgb  = tinycolor({ r: randomInt(30, 210), g: randomInt(35, 195), b: randomInt(25, 215) });
         let _brightness = Math.round(parseFloat(((_rgb.getBrightness())/255).toFixed(2)) * 100);
-        return ( _brightness > 60 ) ? _rgb.darken( _brightness - 60 ).toHex() : _rgb.toHex();
+        let _saturation = Math.round(parseFloat((_rgb.toHsl()['s']).toFixed(2)) * 100);
+
+            _rgb = ( _brightness > 60 ) ? tinycolor( _rgb.darken(_brightness - 60).toHex() ) : _rgb;
+            _rgb = ( _saturation > 60 ) ? tinycolor( _rgb.desaturate(_saturation - 60).toHex() ) : _rgb;
+
+        return _rgb.toHex();
     },
 
     init : function() {
