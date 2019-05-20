@@ -166,10 +166,17 @@ const randomInt = function(min, max) {
 
 const Mendiak = {
 
-    colors : ['d08635', '5638a4', '626866', '1e6686', '86233d', '4182d9', '3b6e9e', '3669a2', '793961', 'ca78c6', '306dbd', '464d32', 'ab4a5b', '5a28c2', '623373', '9a4743', '64bfbd', '20391b'],
+    // colors : ['d08635', '5638a4', '626866', '1e6686', '86233d', '4182d9', '3b6e9e', '3669a2', '793961', 'ca78c6', '306dbd', '464d32', 'ab4a5b', '5a28c2', '623373', '9a4743', '64bfbd', '20391b'],
 
     randomColor : function() {
-        return Mendiak.colors[Math.floor(Math.random() * Mendiak.colors.length)];
+
+        // Get a color from the above list (Mendiak.colors) :
+        // return Mendiak.colors[Math.floor(Math.random() * Mendiak.colors.length)];
+
+        // Generate a random color under some constrains :
+        let _rgb  = tinycolor({ r: randomInt(30, 210), g: randomInt(35, 195), b: randomInt(25, 215) });
+        let _brightness = Math.round(parseFloat(((_rgb.getBrightness())/255).toFixed(2)) * 100);
+        return ( _brightness > 60 ) ? _rgb.darken( _brightness - 60 ).toHex() : _rgb.toHex();
     },
 
     init : function() {
@@ -461,7 +468,5 @@ window.addEventListener('load', () => {
 	});
 });
 
-
-
-
-// ...
+// -----------------------
+// Jorge Moreno @alterebro
