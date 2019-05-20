@@ -228,7 +228,7 @@ const Mendiak = {
                 draw.rect(config.width, config.height).fill(draw.gradient('linear', function(stop) {
 
                     stop.at({ offset: 0, color: '#fff', opacity: 0 })
-                    stop.at({ offset: .65, color: '#fff', opacity: .8 })
+                    stop.at({ offset: .5, color: '#fff', opacity: .8 })
                     stop.at({ offset: 1, color: '#fff', opacity: .8 })
 
                 }).from(0, 0).to(0, 1));
@@ -241,10 +241,10 @@ const Mendiak = {
                       }
                 draw.rect(sun.size, sun.size).x(sun.offset.x).y(sun.offset.y).fill(draw.gradient('radial', function(stop) {
 
-                    stop.at({ offset: 0, color: '#fff', opacity: .5 })
+                    stop.at({ offset: 0, color: '#fff', opacity: 1 })
                     stop.at({ offset: 1, color: '#fff', opacity: 0 })
 
-                }).from(.5, .5).to(.5, .5).radius(.45) );
+                }).from(.5, .5).to(.5, .5).radius(.5) );
 
             } else {
 
@@ -267,14 +267,6 @@ const Mendiak = {
                 stop.at({ offset: 1, color: '#000', opacity: .25 })
 
             }).from(.5, .5).to(.5, .5).radius(.75) );
-
-
-            let pattern = draw.pattern(24, 24, function(add) {
-
-                add.image("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAADTElEQVRoQ+1ZXyjzYRT+FtmVIqJERC4UkZWmSVGKSHlyITW5UESW5UpZraxciciaciFKLjQl2kpRIksRUS5ENCmiKVc09d1837l46k1fW37fW7/drKfz/tvOc8553vNaMjIy8Pb2Fvz15zM2NobJyUnBHx8fsFqtgl9eXpCdnS04FAqhpaVF8NXVFcrKygQPDw9jbm5OsNPpxMrKiuDe3l4sLS0JjkajKCgoENzX14fFxUXBnZ2dWF9fF2z5e3Bdv80fYLTnLPPz8xgaGlJybGJiAh6PR+zl5eW4vLwUXF1djdPTU8GBQAADAwOC39/fkZ6erowp5vz09DTcbreM5/NxzJoUMpxCRh8g0f0tsVgMmZmZwrmtrS20tbUJXltbQ1dXl+CbmxuUlJQIbm1txfb2tmCv1wuv16vkfDweR2pqqtj7+/uxsLAgeHZ2Fi6XSzDH4OPjI/Ly8sw6kKjnkzZf/yzkcDhweHio1DIXFxeoqKhQ5mXWNqyNBgcH4ff7Zf74+Dh8Pp/g/Px8PDw8KGNoZ2cHTU1NYk9JScHX15cZA0njcKIL6R8DrFW6u7uxuroqHCssLMT9/b1g1ionJyew2WxK/c7zOzo6sLGxIeNzcnLw/PysxFwHuA7p74FEOWj0fP098PT0hNzcXCXHOe+2t7djc3NTxnMMBINBABC73W5HJBIRzHdu1jasvTgmuS7o7wGjOZzo/vp7gO+crF1Y2xQXF+P29lY4nZWVhdfXV8GlpaW4vr5W3he4z8R9o4aGBuzt7cl85jzXLf09kCgHjZ6vvwe4lzk6OoqpqSmlPmeOMuYY+e4+sLu7i8bGRuWd+OzsDFVVVWI3e6NGc5731z8GWF9zXua8zXdk1jYcA1xHOK83NzcjHA4Lxzmm0tLS8Pn5KXazDpgxkOR/wHJwcIC6ujrhGL+BMWeZk6yleD3uG3HM1dfXY39/X/bn+wb3rXg9/bNQkj3648vp7wHuu3B/n7URvx9wX6eyshLn5+fCaa4LR0dHqK2tFfvd3R2KiooEM+e5TphvZD9O8m821D8GWMtwHmctxG9YIyMjmJmZEQ5zX4h7o8fHx6ipqZHxrL2Wl5fR09OjrAtcN/T3wP/G6X89j/Ye+A06mEBPA04cLwAAAABJRU5ErkJggg==", 24, 24);
-
-            });
-            draw.rect(config.width, config.height).fill(pattern).opacity(.25);
 
         },
 
