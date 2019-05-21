@@ -285,9 +285,19 @@ const Mendiak = {
 
         saveImage : function() {
 
-            let _trigger = document.createElement('a');
+            let _trigger = null;
+            if ( !document.getElementById('mendiak-image-trigger') ) {
+
+                _trigger = document.createElement('a');
                 _trigger.id = 'mendiak-image-trigger';
-                _trigger.target = '_blank';
+                _trigger.download = 'mendiak.moro.es.jpg';
+                document.body.appendChild(_trigger);
+
+            } else {
+
+                _trigger = document.getElementById('mendiak-image-trigger');
+            }
+
 
             let _svg = "data:image/svg+xml;base64," + btoa(draw.node.outerHTML);
 
@@ -301,13 +311,8 @@ const Mendiak = {
                 img.addEventListener('load', function() {
 
                     _ctx.drawImage(img, 0, 0, config.width*2, config.height*2);
-
                     _trigger.href = _canvas.toDataURL("image/jpeg");
-                    _trigger.addEventListener('click', function() {
-                        this.download = 'mendiak.moro.es.jpg';
-                    }, false);
                     _trigger.click();
-
                 });
         },
 
