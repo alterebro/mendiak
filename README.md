@@ -1,7 +1,7 @@
 # ⛰️ mendiak &rsaquo; [mendiak.moro.es](https://mendiak.moro.es)
 
 > **Basque Mountains Generator / Generador de Montes Vascos / Euskal Herriko Mendiak Sortzailea.**  
-> [Basque Mountains](https://google.com/search?q=Euskal+Mendiak&tbm=isch) Landscape Wallpaper Images generation with SVG, JavaScript and Perlin Noise.  
+> [Basque Mountains](https://google.com/search?q=Euskal+Mendiak&tbm=isch) Landscape Wallpaper Images generation with Perlin Noise, SVG and JavaScript.  
 > Built using: [Parcel](https://parceljs.org/), [SVG,js](https://svgjs.com/), [TinyColor](https://github.com/bgrins/TinyColor) and [Perlin Noise](https://www.npmjs.com/package/perlin-noise-3d). Deployment with [Netlify](https://www.netlify.com/)
 
 [![mendiak](src/static/mendiak.jpg)](https://mendiak.moro.es)
